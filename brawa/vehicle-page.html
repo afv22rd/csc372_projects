@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Abel Frias">
+    <meta name="email" content="afriasv@uri.edu">
+    <meta name="description" content="Browse and buy used cars online in the Dominican Republic. Explore our extensive inventory and get the best financing options available.">
+    <meta name="keywords" content="buy used cars Dominican Republic, online car purchase, finance car Dominican Republic, used car inventory, affordable cars">
+    <title>Buy &amp; Finance Used Cars Online | Used Vehicles for Sale in Dominican Republic</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./vehicle-page.css">
+  </head>
+  <body>
+    <header>
+      <div class="px-3 py-2 border-bottom">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="./buy-sell-trade-finance-vehicles-online.html" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+              <img src="./images/logo.png" class="bi me-2" width="400" alt="Brawa Logo">
+            </a>
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+              <li class="nav-tab">
+                <a href="./buy-sell-trade-finance-vehicles-online.html" class="nav-link">
+                  <img src="./images/homeicon.svg" class="bi d-block mx-auto mb-1" width="30" alt="home icon"> Home
+                </a>
+              </li>
+              <li class="nav-tab">
+                <a href="./buy-used-cars-online-dominican-republic.html" class="nav-link active">
+                  <img class="bi d-block mx-auto mb-1" src="./images/inventory.svg" width="30" alt="inventory icon"> Inventory
+                </a>
+              </li>
+              <li class="nav-tab">
+                <a href="./sell-or-trade-your-car-online-dominican-republic.html" class="nav-link">
+                  <img class="bi d-block mx-auto mb-1" src="./images/sell.svg" width="30" alt="sell icon"> Sell
+                </a>
+              </li>
+              <li class="nav-tab">
+                <a href="./best-car-dealership-dominican-republic.html" class="nav-link">
+                  <img class="bi d-block mx-auto mb-1" src="./images/about.svg" width="30" alt="about icon"> About Us
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="px-3 py-2 text-bg-dark">
+        <div class="container d-flex flex-wrap justify-content-center">
+          <form class="col-12 col-lg-5 mb-2 mb-lg-0 me-lg-auto" role="search">
+            <input type="search" class="form-control" placeholder="Search Make, Model or Keyword" aria-label="Search">
+          </form>
+          <div class="text-end">
+            <button type="button" class="btn btn-light text-dark me-2">Login</button>
+            <button type="button" class="btn btn-primary">Sign-up</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Vehicle listing -->
+    <section id="vehicle-listing">
+      <div class="container bg-secondary px-4 px-md-5">
+        <nav class="pt-5" aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a class="text-decoration-none" href="./buy-used-cars-online-dominican-republic.html">All vehicles</a></li>
+          </ol>
+        </nav>      
+        <main>
+          <div class="row py-4">
+            <!-- Vehicle details and price -->
+            <div class="col-12">
+              <!-- Vehicle Details -->
+              <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center mb-4 mb-md-5">
+                <div>
+                  <h2 class="mb-0 vehicle-heading"></h2>
+                  <h4 class="mb-0 vehicle-subheading"></h4>
+                  <!-- Price for small screens -->
+                  <h3 class="price d-lg-none mb-0 vehicle-price"></h3>
+                </div>
+                <!-- Price and Button -->
+                <div class="d-none d-lg-flex align-items-center gap-3">
+                  <h3 class="price mb-0 vehicle-price"></h3>
+                  <button class="btn btn-primary">Get Started</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vehicle images carousel -->
+            <div class="col-12 col-lg-8 mb-xl-5">
+              <div class="carousel-wrapper position-relative w-100" style="padding-top: 75%;">
+                <div id="carouselExampleIndicators" class="carousel slide position-absolute top-0 start-0 w-100 h-100 rounded-4">
+                  <div class="carousel-indicators">
+                    <!--Added with javascript-->
+                  </div>
+                  <div class="carousel-inner rounded-4 h-100">
+                    <!--Added with javascript-->
+                  </div>
+                  <button class="carousel-control-prev ps-4" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span aria-hidden="true" class="carousel-control-prev-icon p-3 p-md-4 bg-dark rounded-3 rounded-md-4"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next pe-4" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span aria-hidden="true" class="carousel-control-next-icon p-3 p-md-4 bg-dark rounded-3 rounded-md-4"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interest form -->
+            <div id="interest_form" class="col-12 col-lg-4 mb-5 mt-4 mt-md-5 mt-lg-0">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span>Interested in this vehicle?</span>
+              </h4>
+              <form>
+                <!-- Name -->
+                <div class="input-group has-validation">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="name" placeholder="Name" required="">
+                    <label for="name">Name</label>
+                  </div>
+                  <div class="invalid-feedback input-fb mb-1">
+                    Please enter your full name.
+                  </div>
+                </div>
+                <!-- Email -->
+                <div class="input-group has-validation">
+                  <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Email" required="">
+                    <label for="email">Email Address</label>
+                  </div>
+                  <div class="invalid-feedback input-fb mb-1">
+                    Please enter a valid email address.
+                  </div>
+                </div>
+                <!-- Phone -->
+                <div class="input-group has-validation">
+                  <div class="form-floating mb-3">
+                    <input type="tel" class="form-control" id="phone" placeholder="Phone" required="">
+                    <label for="phone">Phone Number</label>
+                  </div>
+                  <div class="invalid-feedback input-fb mb-1">
+                    Please enter a valid phone number.
+                  </div>
+                </div>
+                <!-- City -->
+                <div class="mb-3">
+                  <label for="city" class="form-label">City</label>
+                  <select class="form-select" aria-label="Default select example" id="city" name="city" required="">
+                    <option selected="">Select the city you are located at</option>
+                    <option value="Santo Domingo">Santo Domingo</option>
+                  </select>
+                </div>
+                <!-- Message -->
+                <div class="input-group has-validation">
+                  <div class="form-floating mb-1">
+                    <textarea class="form-control" placeholder="Message" id="message" style="height: 100px"></textarea>
+                    <label for="message">Message (Optional)</label>
+                  </div>
+                  <div class="invalid-feedback input-fb mb-1">
+                    Please enter a message.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <small class="text-muted">400 characters maximum</small>
+                </div>
+                <button type="button" id="contact_us_btn" class="btn btn-primary col-12">Contact Us</button>
+              </form>
+            </div>
+          </div>
+        </main>
+      </div>
+      <!--Toast notification-->
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img src="./images/logo.png" width="50" class="rounded me-2" alt="Brawa Logo">
+            <strong class="me-auto">Brawa</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            Thank you for showing Interest in this vehicle. We will contact you shortly.
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Sticky button for small screens -->
+    <div class="fixed-bottom d-lg-none bg-white shadow-lg p-3">
+      <button class="btn btn-primary w-100">Get Started</button>
+    </div>
+
+    <!-- Footer -->
+    <section>
+      <div class="divider"></div>
+      <div class="container">
+        <footer class="py-5">
+          <div class="row">
+            <div class="col-6 col-md-2 mb-3">
+              <h5>Brawa</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="./buy-sell-trade-finance-vehicles-online.html" class="nav-link p-0 text-body-secondary">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Inventory</a></li>
+                <li class="nav-item mb-2"><a href="./sell-or-trade-your-car-online-dominican-republic.html" class="nav-link p-0 text-body-secondary">Sell</a></li>
+                <li class="nav-item mb-2"><a href="./best-car-dealership-dominican-republic.html" class="nav-link p-0 text-body-secondary">About</a></li>
+              </ul>
+            </div>
+            <div class="col-md-5 offset-md-1 mb-3">
+              <form>
+                <h5>Subscribe to our newsletter</h5>
+                <p>Weekly updates of new and exciting cars.</p>
+                <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                  <label for="newsletter1" class="visually-hidden">Email address</label>
+                  <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                  <button class="btn btn-primary" type="button">Subscribe</button>
+                </div>
+              </form>
+            </div>
+          </div>    
+          <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+            <p>© 2024 Brawa Auto Imports. All rights reserved.</p>
+            <ul class="list-unstyled d-flex">
+              <li class="ms-3"><a class="link-body-emphasis" href="https://www.instagram.com/brawa_autoimport_/" target="_blank"><img src="./images/instagram.png" class="bi" width="24" height="24" alt="Instagram logo"></a></li>
+              <li class="ms-3"><a class="link-body-emphasis" href="https://www.facebook.com/brawaautoimport/" target="_blank"><img src="./images/facebook.png" class="bi" width="24" height="24" alt="Facebook logo"></a></li>
+            </ul>
+          </div>
+        </footer>
+      </div>
+    </section>
+    <script src="./js/vehicle-details.js"></script>
+    <script src="./js/contact-form-validation-script.js"></script>
+  </body>
+</html>
