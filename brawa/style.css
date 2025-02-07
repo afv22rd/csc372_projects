@@ -1,0 +1,207 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.text-bg-dark {
+    --bg-blue: 53, 78, 242;
+    background-color: RGBA(var(--bg-blue),var(--bs-bg-opacity,1)) !important;
+}
+
+.nav-link {
+    color: #0D0D0D;
+}
+
+.nav-link:hover {
+    color: #1C2980;
+}
+
+.nav-tab:hover {
+    background-color: #59595830;
+    border-radius: 20%;
+}
+
+.active {
+    color: #F26835;
+}
+
+.active:hover {
+    color: #F26835;
+}
+
+.btn-primary {
+    --bs-btn-bg: #f26835;
+    --bs-btn-border-color: #f26835;
+    --bs-btn-hover-bg: #CF582D;
+    --bs-btn-hover-border-color: #CF582D;
+}
+
+.nav-btn {
+    color: rgb(255, 255, 255);
+    --bs-btn-bg: #f26835;
+    --bs-btn-border-color: #f26835;
+    --bs-btn-hover-bg: #CF582D;
+    --bs-btn-hover-border-color: #CF582D;
+}
+
+.nav-btn:focus {
+    --bs-btn-focus-shadow-rgb: 211,212,213;
+  }
+
+.form-control:focus {
+    box-shadow: 0 0 0 .25rem rgba(211,212,213,.50);
+}
+  
+
+.carousel-item {
+    height: 60vh;
+}
+
+.slide-1 {
+    background-image: url('./images/lot1.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.slide-2 {
+    background-image: url('./images/lot2.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.image-container {
+    height: 50vh;
+}
+
+#hours-heading {
+    display: inline-block;
+    background-color: #F2683530;
+    color: #CF582D;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    line-height: 16px;
+}
+
+#contact-heading {
+    display: inline-block;
+    background-color: #F2683530;
+    color: #CF582D;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    line-height: 16px;
+}
+
+#appt-button {
+    display: inline-block;
+    background-color: #354EF230;
+    color: #1C2980;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    line-height: 16px;
+}
+.closed {
+    background-color: #595958;
+}
+
+.list-group {
+    --bs-border-width: 0;
+}
+
+.text-bg-primary {
+    color: #fff !important;
+    --bs-primary-rgb: 207, 88, 45;
+    background-color: RGBA(var(--bs-primary-rgb),var(--bs-bg-opacity,0.81)) !important;
+}
+  
+.divider {
+    width: 100%;
+    height: 3rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+      border-top-width: medium;
+      border-right-width: medium;
+      border-bottom-width: medium;
+      border-left-width: medium;
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.car-img {
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-body-tertiary {
+    --bs-bg-opacity: 0.1;
+    --bs-tertiary-bg-rgb: 89, 89, 89;
+    background-color: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity)) !important;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #354EF2;
+    --bs-btn-border-color: #354EF2;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #354EF2;
+    --bs-btn-hover-border-color: #354EF2;
+    --bs-btn-focus-shadow-rgb: 13,110,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #354EF2;
+    --bs-btn-active-border-color: #354EF2;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #354EF2;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #354EF2;
+    --bs-gradient: none;
+}
+
+#about {
+    position: relative;
+    overflow: hidden;
+}
+
+#about .bg-body-tertiary {
+    background-size: cover;
+    background-position: center;
+    background-image: url('./images/santo-domingo.jpeg');
+}
+
+#about .bg-body-tertiary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    z-index: 1;
+}
+
+#about h1, #about p {
+    position: relative;
+    z-index: 2;
+}
+
+.main-content {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+#home-main .card {
+    display: block;
+}
+
+#vehicleCheckboxes, #priceRange {
+    display: none;
+}
+
+.bg-secondary {
+    background-color: rgba(242, 104, 53, 0.05) !important;
+}
