@@ -1,255 +1,252 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const vehicleYes = document.getElementById("vehicleYes"); // Yes radio button
-    const vehicleNo = document.getElementById("vehicleNo"); // No radio button
-    const vehicleList = document.getElementById("vehicleCheckboxes"); // Vehicle checkboxes
-    const priceRange = document.getElementById("priceRange");
+$(document).ready(function() {
+    // Cache jQuery selections
+    const $vehicleYes = $('#vehicleYes');
+    const $vehicleNo = $('#vehicleNo');
+    const $vehicleList = $('#vehicleCheckboxes');
+    const $priceRange = $('#priceRange');
+    const $form = $('#appointmentModal form');
+    const $modalBodyContent = $('#modalBodyContent');
+    const $submitButton = $('#submitAppointment');
+    const $confirmButton = $('#confirmAppointment');
+    const $toast = $('#liveToast');
+    const $apptButton = $('#appt-button');
 
-    // Show/hide vehicle list and price range based on user selection
-    // If user selects "Yes" for vehicle interest, show vehicle list
-    vehicleYes.addEventListener("change", function() {
-        if (vehicleYes.checked) {
-            vehicleList.style.display = "block";
-            priceRange.style.display = "none";
+    // Initialize Bootstrap modals
+    const appointmentModal = new bootstrap.Modal($('#appointmentModal')[0]);
+    const summaryModal = new bootstrap.Modal($('#summaryModal')[0]);
+
+    // Enhanced vehicle selection with smooth animations
+    $vehicleYes.on('change', function() {
+        if ($vehicleYes.prop('checked')) {
+            $priceRange.slideUp(400, function() {
+                $vehicleList.slideDown(400);
+            });
         }
     });
 
-    // If user selects "No" for vehicle interest, show price range
-    vehicleNo.addEventListener("change", function() {
-        if (vehicleNo.checked) {
-            vehicleList.style.display = "none";
-            priceRange.style.display = "block";
+    $vehicleNo.on('change', function() {
+        if ($vehicleNo.prop('checked')) {
+            $vehicleList.slideUp(400, function() {
+                $priceRange.slideDown(400);
+            });
         }
     });
 
-    // Initialize the appointment modal and summary modal
-    const appointmentModal = new bootstrap.Modal(document.getElementById("appointmentModal"));
-    const form = document.querySelector("#appointmentModal form");
-    const summaryModal = new bootstrap.Modal(document.getElementById("summaryModal"));
-    const modalBodyContent = document.getElementById("modalBodyContent");
+    // Add hover effect to appointment button
+    $apptButton.hover(
+        function() { $(this).css({'transform': 'scale(1.1)', 'transition': 'transform 0.3s'}); },
+        function() { $(this).css({'transform': 'scale(1)', 'transition': 'transform 0.3s'}); }
+    );
 
-    // Submit and confirm button
-    const submitButton = document.querySelector("#submitAppointment");
-    const confirmButton = document.getElementById("confirmAppointment")
+    // Add visual feedback when inputs are focused
+    $('.form-floating input').on('focus', function() {
+        $(this).parent().animate({
+            marginLeft: '10px'
+        }, 200).animate({
+            marginLeft: '0px'
+        }, 200);
+    });
 
     function formValidation() {
-        const formFields = [{ 
-                element: document.querySelectorAll(".form-floating")[0], 
-                input: document.getElementById("name"),
-                feedback: document.querySelectorAll(".input-fb")[0],
-                valid: false
-            }, 
-            { 
-                element: document.querySelectorAll(".form-floating")[1], 
-                input: document.getElementById("email"),
-                feedback: document.querySelectorAll(".input-fb")[1],
+        const formFields = [
+            {
+                element: $('.form-floating').eq(0),
+                input: $('#name'),
+                feedback: $('.input-fb').eq(0),
                 valid: false
             },
-            { 
-                element: document.querySelectorAll(".form-floating")[2], 
-                input: document.getElementById("phone"),
-                feedback: document.querySelectorAll(".input-fb")[2],
+            {
+                element: $('.form-floating').eq(1),
+                input: $('#email'),
+                feedback: $('.input-fb').eq(1),
+                valid: false
+            },
+            {
+                element: $('.form-floating').eq(2),
+                input: $('#phone'),
+                feedback: $('.input-fb').eq(2),
                 valid: false
             }
         ];
-        
-        // Loop thru all form fields and add event listeners to the input fields
-        for (let i = 0; i < formFields.length; i++) {
-            // Add event listener to the input fields when they are focused
-            formFields[i].input.addEventListener("focus", function() {
-                if (formFields[i].valid){
-                    // If the input is valid, remove initial classes
-                    formFields[i].element.classList.remove("is-invalid");
-                    formFields[i].element.classList.add("mb-3");
-                    formFields[i].input.classList.remove("is-invalid");
-                } else if (!formFields[i].valid) {
-                    // If the input is invalid, add invalid class
-                    formFields[i].element.classList.add("is-invalid");
-                    formFields[i].element.classList.remove("mb-3");
-                    formFields[i].input.classList.add("is-invalid");
+
+        // Add event listeners to input fields
+        $.each(formFields, function(i, field) {
+            field.input.on('focus', function() {
+                if (field.valid) {
+                    field.element.removeClass('is-invalid').addClass('mb-3');
+                    field.input.removeClass('is-invalid');
+                } else {
+                    field.element.addClass('is-invalid').removeClass('mb-3');
+                    field.input.addClass('is-invalid');
                 }
             });
-    
-            formFields[i].input.addEventListener("blur", function() {
-                // If the input is empty, add invalid class
-                if (!formFields[i].input.value) {
-                    invalidField(formFields[i]);
+
+            field.input.on('blur', function() {
+                if (!field.input.val()) {
+                    invalidField(field);
                 }
 
-                // Validate input fields
                 switch(i) {
-                    // Validate name
                     case 0:
-                        validateName(formFields[i]);
+                        validateName(field);
                         break;
-                    // Validate email
                     case 1:
-                        validateEmail(formFields[i]);
+                        validateEmail(field);
                         break;
-                    // Validate phone
                     case 2:
-                        validatePhone(formFields[i]);
+                        validatePhone(field);
                         break;
                 }
             });
-        }
+        });
 
-        // Function to add bootstrap classes to the input fields when they are invalid
-        function invalidField(field){
-            field.element.classList.add("is-invalid");
-            field.element.classList.remove("mb-3");
-            field.input.classList.add("is-invalid");
-            field.input.classList.remove("is-valid");
+        function invalidField(field) {
+            field.element
+                .addClass('is-invalid')
+                .removeClass('mb-3');
+            field.input
+                .addClass('is-invalid')
+                .removeClass('is-valid');
             field.valid = false;
         }
-        // Function to add bootstrap classes to the input fields when they are valid
-        function validField(field){
-            field.element.classList.remove("is-invalid");
-            field.element.classList.add("is-valid", "mb-3");
-            field.input.classList.remove("is-invalid");
-            field.input.classList.add("is-valid");
+
+        function validField(field) {
+            field.element
+                .removeClass('is-invalid')
+                .addClass('is-valid mb-3');
+            field.input
+                .removeClass('is-invalid')
+                .addClass('is-valid');
             field.valid = true;
         }
 
-        // Function to validate name input
         function validateName(field) {
-            // Check if name is less than 2 words
-            if (field.input.value.split(" "). length < 2) {
+            if (field.input.val().split(' ').length < 2) {
                 invalidField(field);
-                field.feedback.innerHTML = "You must enter your full name. Please try again.";
-            } else { // If name is valid
+                field.feedback.html('You must enter your full name. Please try again.');
+            } else {
                 validField(field);
             }
         }
 
-        // Function to validate email input
-        function validateEmail(field){
-            // Email regex to verify if it's an email format
+        function validateEmail(field) {
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!emailRegex.test(field.input.value)) {
+            if (!emailRegex.test(field.input.val())) {
                 invalidField(field);
-                field.feedback.innerHTML = "You must enter a valid email address. Please try again.";
+                field.feedback.html('You must enter a valid email address. Please try again.');
             } else {
                 validField(field);
             }
         }
 
-        function validatePhone(field){
-            // Phone regex to verify if it's a phone number format
+        function validatePhone(field) {
             const phoneRegex = [/^\d{3}-\d{3}-\d{4}$/, /^\d{10}$/];
-            if (!phoneRegex[0].test(field.input.value) && !phoneRegex[1].test(field.input.value)) {
+            if (!phoneRegex[0].test(field.input.val()) && !phoneRegex[1].test(field.input.val())) {
                 invalidField(field);
-                field.feedback.innerHTML = "You must enter a valid phone number. Please try again.";
+                field.feedback.html('You must enter a valid phone number. Please try again.');
             } else {
                 validField(field);
             }
         }
 
-        // Return the form fields
         return formFields;
     }
 
     const formFields = formValidation();
 
-    // Add content to offer summary modal
-    submitButton.addEventListener("click", function(event) {
+    // Form submission handling
+    $submitButton.on('click', function(event) {
         event.preventDefault();
 
-        // Check if all input fields are valid
-        if (!formFields[0].valid || !formFields[1].valid || !formFields[2].valid) {
-            // If any input field is invalid, show an alert
-            alert("Please fill out all the required fields before submitting your offer.");
-            // Focus on the first invalid input field
-            for (let i = 0; i < formFields.length; i++) {
-                if (!formFields[i].valid) {
-                    formFields[i].input.focus();
-                    break;
-                }
-            }
-            // Remove modal attributes from the submit button
-            submitButton.removeAttribute("data-bs-toggle");
-            submitButton.removeAttribute("data-bs-target");
+        const invalidFields = formFields.filter(field => !field.valid);
+        if (invalidFields.length > 0) {
+            // Shake effect for invalid fields
+            invalidFields.forEach(field => {
+                field.element.animate({marginLeft: '-10px'}, 100)
+                           .animate({marginLeft: '10px'}, 100)
+                           .animate({marginLeft: '0px'}, 100);
+            });
+            
+            alert('Please fill out all the required fields before submitting your offer.');
+            invalidFields[0].input.focus();
             return;
         }
 
-        // If all input fields are valid, add bootstrap modal attributes to the submit button
-        submitButton.setAttribute("data-bs-toggle", "modal");
-        submitButton.setAttribute("data-bs-target", "#summaryModal");
-        submitButton.click()
-
-        appointmentModal.hide();  // Hide the appointment modal
-
-        // Appt info
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const phone = document.getElementById("phone").value;
-        const date = document.getElementById("date").value;
-        const time = document.getElementById("time").value;
-
-        // Determine vehicle selection or price range
-        let appointmentDetails = `<p><strong>Name:</strong> ${name}</p>
-                                  <p><strong>Email:</strong> ${email}</p>
-                                  <p><strong>Phone:</strong> ${phone}</p>
-                                  <p><strong>Date:</strong> ${date}</p>
-                                  <p><strong>Time:</strong> ${time}</p>`;
-
-        // Check if the user is interested in specific vehicles
-        const isInterestedInVehicle = document.getElementById("vehicleYes").checked;
-        if (isInterestedInVehicle) {
-            let selectedVehicles = []; // Array to store selected vehicles
-            document.querySelectorAll("#vehicleCheckboxes input[type='checkbox']:checked").forEach(checkbox => { // Loop through selected checkboxes
-                selectedVehicles.push(checkbox.nextElementSibling.textContent); // Get the vehicle name of each checkbox
-            });
-            // This will show the number and names of selected vehicles
-            // Join selected vehicles to the appointment details. If selectedVehicles is empty, join "None selected"
-            appointmentDetails += `<p><strong>Vehicles selected:</strong> ${selectedVehicles.length}<br> ${selectedVehicles.length ? selectedVehicles.join("<br>") : "None selected"}</p>`;
-        } else {
-            // Get price range value depending on where the dropdown is set
-            const priceRangeValue = document.getElementById("priceRangeDropdown").value;
-            let priceRangeText;
-            switch (priceRangeValue) {
-                case "1":
-                    priceRangeText = "$0 - $5,000";
-                    break;
-                case "2":
-                    priceRangeText = "$5,000 - $10,000";
-                    break;
-                case "3":
-                    priceRangeText = "$10,000 - $15,000";
-                    break;
-                case "4":
-                    priceRangeText = "$15,000 - $20,000";
-                    break;
-                case "5":
-                    priceRangeText = "$20,000 - $25,000";
-                    break;
-                case "6":
-                    priceRangeText = "$25,000+";
-                    break;
-                default:
-                    priceRangeText = "Not selected";
-            }
-            // Add price range to appointment details
-            appointmentDetails += `<p><strong>Price Range:</strong> ${priceRangeText}</p>`;
-        }
-
-        // Insert appointment details into modal body
-        modalBodyContent.innerHTML = appointmentDetails;
-
-        // Show the summary modal
-        // Submit form
-        const appointmentForm = document.querySelector("#appointmentModal form");
-        confirmButton.addEventListener("click", function() {
-            // Use session storage to know if the form was submitted
-            sessionStorage.setItem("formSubmitted", true);
-            appointmentForm.submit();
+        // Fade out appointment modal and show summary
+        $('#appointmentModal').fadeOut(400, function() {
+            appointmentModal.hide();
+            updateSummaryContent();
+            summaryModal.show();
+            $('#summaryModal').hide().fadeIn(400);
         });
     });
 
-    // Show bootstrap toast alert when form was submitted
-    const toast = document.getElementById("liveToast");
-    if (sessionStorage.getItem("formSubmitted")) {
-        const btToast = bootstrap.Toast.getOrCreateInstance(toast);
+    // Function to update summary content
+    function updateSummaryContent() {
+        const appointmentInfo = {
+            name: $('#name').val(),
+            email: $('#email').val(),
+            phone: $('#phone').val(),
+            date: $('#date').val(),
+            time: $('#time').val()
+        };
+
+        let appointmentDetails = `
+            <p><strong>Name:</strong> ${appointmentInfo.name}</p>
+            <p><strong>Email:</strong> ${appointmentInfo.email}</p>
+            <p><strong>Phone:</strong> ${appointmentInfo.phone}</p>
+            <p><strong>Date:</strong> ${appointmentInfo.date}</p>
+            <p><strong>Time:</strong> ${appointmentInfo.time}</p>
+        `;
+
+        if ($vehicleYes.prop('checked')) {
+            const selectedVehicles = $('#vehicleCheckboxes input:checked')
+                .map(function() {
+                    return $(this).next().text();
+                })
+                .get();
+
+            appointmentDetails += `
+                <p><strong>Vehicles selected:</strong> ${selectedVehicles.length}<br>
+                ${selectedVehicles.length ? selectedVehicles.join('<br>') : 'None selected'}</p>
+            `;
+        } else {
+            const priceRangeMap = {
+                '1': '$0 - $5,000',
+                '2': '$5,000 - $10,000',
+                '3': '$10,000 - $15,000',
+                '4': '$15,000 - $20,000',
+                '5': '$20,000 - $25,000',
+                '6': '$25,000+',
+                'default': 'Not selected'
+            };
+
+            const selectedRange = $('#priceRangeDropdown').val();
+            const priceRangeText = priceRangeMap[selectedRange] || priceRangeMap.default;
+            appointmentDetails += `<p><strong>Price Range:</strong> ${priceRangeText}</p>`;
+        }
+
+        // Fade in the new content
+        $modalBodyContent.fadeOut(200, function() {
+            $(this).html(appointmentDetails).fadeIn(200);
+        });
+    }
+
+    // Confirm button handler with fade effect
+    $confirmButton.off('click').on('click', function() {
+        $('#summaryModal').fadeOut(400, function() {
+            sessionStorage.setItem('formSubmitted', true);
+            $form.submit();
+        });
+    });
+
+    // Show toast notification with slide effect
+    if (sessionStorage.getItem('formSubmitted')) {
+        const $toastElement = $('#liveToast');
+        $toastElement.hide();
+        const btToast = bootstrap.Toast.getOrCreateInstance($toast[0]);
         btToast.show();
-        sessionStorage.removeItem("formSubmitted");
+        $toastElement.slideDown(400);
+        sessionStorage.removeItem('formSubmitted');
     }
 });

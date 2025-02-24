@@ -481,4 +481,4 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// Still need to add bootstrap alert when the user can't submit the form to receive an offer
+// Still need to add alert when the user can't submit the form to receive an offer

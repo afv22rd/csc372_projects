@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Vehicle class
+$(document).ready(function () {
+    // Vehicle class (unchanged)
     class Vehicle {
         constructor(make, model, trim, year, mileage, price, color, features, isAvailable, images, imageAlt, review) {
             this.make = make;
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Vehicle inventory data
+    // Vehicle inventory data (unchanged)
     const vehicles = [
         new Vehicle("Mercedes-Benz", "E-Class", "E350 4MATIC", "2014", "60k", "20000", "White", ["Leather seats", "Sunroof", "Navigation"], true, ["./images/2014_e350.jpeg", "./images/2014_e350_2.jpg", "./images/2014_e350_3.jpg"], "2014 Mercedes-Benz E-Class", "https://www.youtube.com/embed/OUBVZ9ZasGs?si=IhNcYJaVOfICI3FO"),
         new Vehicle("Honda", "Accord", "Touring V6", "2017", "90k", "15000", "Black", ["Leather seats", "Sunroof", "Navigation"], true, ["./images/2017_accord.jpg", "./images/2017_accord_2.jpg", "./images/2017_accord_3.jpg"], "2017 Honda Accord Touring V6", "https://www.youtube.com/embed/gcVsZE1_ynw?si=qPdgnZ2QfwIHp1hK"),
@@ -51,19 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
         new Vehicle("Toyota", "Camry", "TRD V6", "2020", "50k", "25000", "Red", ["Apple CarPlay", "Sunroof", "Lane Assist"], false, "./images/2020_camry.jpg", "2020 Toyota Camry TRD V6", "https://www.youtube.com/embed/1J9QJ9QJ1Zo?si=J9J9J9J9J9J9J9J9"),
     ];
 
-    // Select the inventory container
-    const inventoryContainer = document.querySelector('.row-cols-1');
-    
-    // Function to create vehicle card
+    // Cache jQuery selections
+    const $inventoryContainer = $('.row-cols-1');
+    const $filterPrice = $('.filter-dropdown');
+
+    // Function to create vehicle card (unchanged)
     function createVehicleCard(vehicle) {
-        // Get index from original vehicles array
-        let originalIndex;
-        for (let i = 0; i < vehicles.length; i++) {
-            if (vehicles[i] === vehicle) {
-                originalIndex = i;
-                break;
-            }
-        }
+        let originalIndex = vehicles.indexOf(vehicle);
         return `
             <div class="col">
                 <a href="vehicle-page.html?vehicleId=${originalIndex}" class="text-decoration-none">
@@ -85,39 +79,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initial display of vehicles
-    for (let i = 0; i < vehicles.length; i++) {
-        if (!vehicles[i].isAvailable) continue;
-        inventoryContainer.innerHTML += createVehicleCard(vehicles[i]);
-    }
-
-    // Set initial vehicle images
-    for (let i = 0; i < vehicles.length; i++) {
-        if (!vehicles[i].isAvailable) continue;
-        const vehicleImage = document.querySelector(`.inventory-${i + 1}`);
-        if (vehicleImage) {
-            vehicleImage.style.backgroundImage = `url("${vehicles[i].images[0]}")`;
+    vehicles.forEach((vehicle, index) => {
+        if (vehicle.isAvailable) {
+            $inventoryContainer.append(createVehicleCard(vehicle));
+            $(`.inventory-${index + 1}`).css('background-image', `url("${vehicle.images[0]}")`);
         }
-    }
+    });
 
-    // Add hover effects
-    const cards = document.querySelectorAll('.card');
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].addEventListener('mouseenter', () => {
-            cards[i].style.transform = 'translateY(-5px)';
-            cards[i].style.transition = 'transform 0.3s ease';
-        });
-        
-        cards[i].addEventListener('mouseleave', () => {
-            cards[i].style.transform = 'translateY(0)';
-        });
-    }
+    // Add hover effects using jQuery
+    $('.card').on('mouseenter', function () {
+        $(this).css({ transform: 'translateY(-5px)', transition: 'transform 0.3s ease' });
+    }).on('mouseleave', function () {
+        $(this).css({ transform: 'translateY(0)' });
+    });
 
-    // Filter by price
-    const filterPrice = document.querySelector('.filter-dropdown');
-    filterPrice.addEventListener('change', () => {
-        const selectedPrice = filterPrice.value;
+    // Filter by price using jQuery
+    $filterPrice.on('change', function () {
+        const selectedPrice = $(this).val();
         let filteredVehicles;
-    
+
         // Determine the filter criteria
         if (selectedPrice === 'All') {
             filteredVehicles = vehicles.filter(vehicle => vehicle.isAvailable);
@@ -140,34 +120,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
             }
         }
-    
-        // Clear the inventory container
-        inventoryContainer.innerHTML = '';
-        // Add only filtered vehicles to the inventory container
-        for (let i = 0; i < filteredVehicles.length; i++) {
-            inventoryContainer.innerHTML += createVehicleCard(filteredVehicles[i]);
-        }
 
-        // Reset cover images and hover
-        for (let i = 0; i < filteredVehicles.length; i++) {
-            const originalIndex = vehicles.indexOf(filteredVehicles[i]);
-            const vehicleImage = document.querySelector(`.inventory-${originalIndex + 1}`);
-            if (vehicleImage) {
-                vehicleImage.style.backgroundImage = `url("${filteredVehicles[i].images[0]}")`;
-            }
-        }
+        // Clear the inventory container and add filtered vehicles
+        $inventoryContainer.empty();
+        filteredVehicles.forEach((vehicle, index) => {
+            $inventoryContainer.append(createVehicleCard(vehicle));
+            $(`.inventory-${vehicles.indexOf(vehicle) + 1}`).css('background-image', `url("${vehicle.images[0]}")`);
+        });
 
         // Reapply hover effects to new cards
-        const newCards = document.querySelectorAll('.card');
-        for (let i = 0; i < newCards.length; i++) {
-            newCards[i].addEventListener('mouseenter', () => {
-                newCards[i].style.transform = 'translateY(-5px)';
-                newCards[i].style.transition = 'transform 0.3s ease';
-            });
-            
-            newCards[i].addEventListener('mouseleave', () => {
-                newCards[i].style.transform = 'translateY(0)';
-            });
-        }
+        $('.card').on('mouseenter', function () {
+            $(this).css({ transform: 'translateY(-5px)', transition: 'transform 0.3s ease' });
+        }).on('mouseleave', function () {
+            $(this).css({ transform: 'translateY(0)' });
+        });
     });
 });
