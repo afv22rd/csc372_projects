@@ -1,0 +1,40 @@
+{
+    "favorites": {
+        "SUVs": [
+            {
+                "make": "Toyota",
+                "model": "4Runner",
+                "year": 2019
+            },
+            {
+                "make": "Jeep",
+                "model": "Wrangler",
+                "year": 2019
+            }
+        ],
+        "Sedans": [
+            {
+                "make": "Toyota",
+                "model": "Camry",
+                "year": 2019
+            },
+            {
+                "make": "Honda",
+                "model": "Accord",
+                "year": 2019
+            }
+        ],
+        "Trucks": [
+            {
+                "make": "Ford",
+                "model": "F-150",
+                "year": 2019
+            },
+            {
+                "make": "Chevrolet",
+                "model": "Silverado",
+                "year": 2019
+            }
+        ]
+    }
+}

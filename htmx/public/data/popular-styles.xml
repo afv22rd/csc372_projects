@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<popularStyles>
+  <title>Popular Vehicle Styles</title>
+  <vehicles>
+    <vehicle>
+      <type>SUVs</type>
+      <image>./images/side_views/suv_side_view.png</image>
+      <alt>SUV</alt>
+    </vehicle>
+    <vehicle>
+      <type>Sedans</type>
+      <image>./images/side_views/sedan_side_view.png</image>
+      <alt>Sedan</alt>
+    </vehicle>
+    <vehicle>
+      <type>Trucks</type>
+      <image>./images/side_views/truck_side_view.png</image>
+      <alt>Truck</alt>
+    </vehicle>
+    <vehicle>
+      <type>Convertibles</type>
+      <image>./images/side_views/convertible_side_view.png</image>
+      <alt>Convertible</alt>
+    </vehicle>
+    <vehicle>
+      <type>Smalls</type>
+      <image>./images/side_views/small_side_view.png</image>
+      <alt>Small car</alt>
+    </vehicle>
+    <vehicle>
+      <type>Electrics</type>
+      <image>./images/side_views/electric_side_view.png</image>
+      <alt>Electric</alt>
+    </vehicle>
+    <vehicle>
+      <type>Hybrids</type>
+      <image>./images/side_views/prius_side_view.webp</image>
+      <alt>Hybrid car</alt>
+    </vehicle>
+    <vehicle>
+      <type>Passenger Vans</type>
+      <image>./images/side_views/van_side_view.png</image>
+      <alt>Passenger Van</alt>
+    </vehicle>
+    <vehicle>
+      <type>Cargo Trucks</type>
+      <image>./images/side_views/bed_truck_side_view.png</image>
+      <alt>Cargo Truck</alt>
+    </vehicle>
+    <vehicle>
+      <type>Shop All</type>
+      <isSvg>true</isSvg>
+      <alt>Shop All</alt>
+    </vehicle>
+  </vehicles>
+</popularStyles>

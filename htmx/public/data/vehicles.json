@@ -1,0 +1,163 @@
+[
+    {
+        "id": 1,
+        "make": "Toyota",
+        "model": "Camry",
+        "year": 2018,
+        "price": 20000
+    },
+    {
+        "id": 2,
+        "make": "Honda",
+        "model": "Accord",
+        "year": 2019,
+        "price": 25000
+    },
+    {
+        "id": 3,
+        "make": "Ford",
+        "model": "Fusion",
+        "year": 2017,
+        "price": 18000
+    },
+    {
+        "id": 4,
+        "make": "Chevrolet",
+        "model": "Malibu",
+        "year": 2020,
+        "price": 22500
+    },
+    {
+        "id": 5,
+        "make": "Nissan",
+        "model": "Altima",
+        "year": 2019,
+        "price": 19000
+    },
+    {
+        "id": 6,
+        "make": "Hyundai",
+        "model": "Sonata",
+        "year": 2021,
+        "price": 24000
+    },
+    {
+        "id": 7,
+        "make": "Kia",
+        "model": "Optima",
+        "year": 2020,
+        "price": 21500
+    },
+    {
+        "id": 8,
+        "make": "Mazda",
+        "model": "Mazda6",
+        "year": 2019,
+        "price": 23000
+    },
+    {
+        "id": 9,
+        "make": "Subaru",
+        "model": "Legacy",
+        "year": 2021,
+        "price": 26000
+    },
+    {
+        "id": 10,
+        "make": "Volkswagen",
+        "model": "Passat",
+        "year": 2018,
+        "price": 19500
+    },
+    {
+        "id": 11,
+        "make": "BMW",
+        "model": "3 Series",
+        "year": 2019,
+        "price": 38000
+    },
+    {
+        "id": 12,
+        "make": "Mercedes-Benz",
+        "model": "C-Class",
+        "year": 2020,
+        "price": 41000
+    },
+    {
+        "id": 13,
+        "make": "Audi",
+        "model": "A4",
+        "year": 2021,
+        "price": 39500
+    },
+    {
+        "id": 14,
+        "make": "Lexus",
+        "model": "ES",
+        "year": 2019,
+        "price": 37000
+    },
+    {
+        "id": 15,
+        "make": "Tesla",
+        "model": "Model 3",
+        "year": 2021,
+        "price": 44000
+    },
+    {
+        "id": 16,
+        "make": "Jeep",
+        "model": "Cherokee",
+        "year": 2020,
+        "price": 27500
+    },
+    {
+        "id": 17,
+        "make": "Dodge",
+        "model": "Charger",
+        "year": 2019,
+        "price": 31000
+    },
+    {
+        "id": 18,
+        "make": "Chrysler",
+        "model": "300",
+        "year": 2018,
+        "price": 28000
+    },
+    {
+        "id": 19,
+        "make": "Buick",
+        "model": "Regal",
+        "year": 2019,
+        "price": 26500
+    },
+    {
+        "id": 20,
+        "make": "Acura",
+        "model": "TLX",
+        "year": 2020,
+        "price": 33000
+    },
+    {
+        "id": 21,
+        "make": "Acura",
+        "model": "Integra",
+        "year": 2021,
+        "price": 36000
+    },
+    {
+        "id": 22,
+        "make": "Cadillac",
+        "model": "CTS",
+        "year": 2018,
+        "price": 34500
+    },
+    {
+        "id": 23,
+        "make": "Lincoln",
+        "model": "MKZ",
+        "year": 2019,
+        "price": 32000
+    }
+]
