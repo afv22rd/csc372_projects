@@ -1,0 +1,18 @@
+/* Add to your existing CSS */
+.htmx-indicator {
+    display: none;
+  }
+  .htmx-request .htmx-indicator {
+    display: inline-block;
+  }
+  .htmx-request.htmx-indicator {
+    display: inline-block;
+  }
+  
+  /* When the suggestions container is populated by HTMX, we need to show it */
+  #search-suggestions:not(.hidden):not(:empty) {
+    display: block;
+    border: 1px solid #e5e7eb;
+    max-height: 300px;
+    overflow-y: auto;
+  }
