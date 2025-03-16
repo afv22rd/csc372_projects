@@ -1580,7 +1580,7 @@ app.get('/popular-styles', (req, res) => {
                 // Return a button with an SVG arrow icon for the "Shop All" option
                 return `
                 <button class="border border-base-900 rounded-lg hover:bg-base-200 transition-colors w-full h-40 flex flex-col items-center justify-center gap-2 p-4">
-                    <span class="text-lg font-medium">${type}</span>
+                    <span class="md:text-lg sm:text-md font-medium">${type}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-24 w-auto">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
                     </svg>
@@ -1593,7 +1593,7 @@ app.get('/popular-styles', (req, res) => {
                 // Return a button with an image representing the vehicle type
                 return `
                 <button class="border border-base-900 rounded-lg hover:bg-base-200 transition-colors w-full h-40 flex flex-col items-center justify-center gap-2 p-4">
-                    <span class="text-lg font-medium">${type}</span>
+                    <span class="md:text-lg sm:text-md font-medium">${type}</span>
                     <img src="${image}" alt="${alt}" class="h-24 w-auto object-contain">
                 </button>`;
             }
