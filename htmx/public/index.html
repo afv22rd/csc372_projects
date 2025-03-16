@@ -8,14 +8,15 @@
         <meta name="email" content="afriasv@uri.edu">
         <meta name="description" content="Buy, sell, and finance vehicles online in the Dominican Republic. Discover our wide selection of cars, easy financing options, and hassle-free car imports at the best rates.">
         <meta name="keywords" content="buy car Dominican Republic, sell car Dominican Republic, finance car Dominican Republic, car imports, online car dealership">
-        <title>Buy, Sell & Finance Vehicles Online | Used Cars for Sale in Dominican Republic</title>
+        <title>Brawa AutoImport | Buy, Sell & Finance Vehicles Online | Used Cars for Sale in Dominican Republic</title>
+        <base href="/">
         <!--Tailwind CSS script and DaisyUI -->
         <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.8/daisyui.css" rel="stylesheet" type="text/css" />
         <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.8/themes.css" rel="stylesheet" type="text/css" />
         <!-- Custom CSS -->
         <link rel="stylesheet" href="./css/index-style.css">
     </head>
-    <body>
+    <body hx-boost="true">
       <!-- Body container -->
       <div class="mx-auto bg-base-100">
         <!-- Header -->
@@ -26,7 +27,7 @@
               <div class="w-full flex justify-between items-center lg:hidden">
                 <!-- Logo -->
                 <div class="flex-none">
-                  <a href="" class="py-2">
+                  <a href="/" class="py-2">
                     <img src="./images/Brawa_logo_hor.svg" alt="Brawa Logo" class="w-auto h-10">
                   </a>
                 </div>
@@ -80,7 +81,7 @@
         
               <!-- Desktop: Logo -->
               <div class="hidden lg:flex flex-none">
-                <a href="" class="py-2">
+                <a href="/" class="py-2">
                   <img src="./images/Brawa_logo_hor.svg" alt="Brawa Logo" class="w-auto h-10">
                 </a>
               </div>
@@ -90,7 +91,7 @@
                 <ul class="menu menu-horizontal px-1 flex-1 gap-2">
                   <li>
                     <a 
-                      href="/search-cars.html"
+                      href="/search-cars"
                       class="font-semibold"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -100,14 +101,10 @@
                     </a>
                   </li>
                   <li>
-                    <a
-                      class="font-semibold"
-                    >Sell/Trade</a>
+                    <a class="font-semibold">Sell/Trade</a>
                   </li>
                   <li>
-                    <a
-                    class="font-semibold"
-                    >Financing</a>
+                    <a class="font-semibold">Financing</a>
                   </li>
                 </ul>
               </div>
@@ -158,7 +155,7 @@
               <!-- Mobile Navigation Links -->
               <div class="w-full lg:hidden flex justify-center">
                 <div class="flex gap-8 py-2 w-full justify-around">
-                  <a href="#" class="text-sm font-medium hover:text-primary">
+                  <a href="/search-cars" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">
                     <span class="flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" class="size-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
@@ -166,8 +163,8 @@
                       Search Cars
                     </span>
                   </a>
-                  <a href="#" class="text-sm font-medium hover:text-primary">Sell/Trade</a>
-                  <a href="#" class="text-sm font-medium hover:text-primary">Financing</a>
+                  <a href="#" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Sell/Trade</a>
+                  <a href="#" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Financing</a>
                 </div>
               </div>
               <!-- End of mobile navigation links -->
@@ -177,7 +174,7 @@
         <!-- End Header -->
 
         <!-- Body content after nav bar -->
-        <div class="body-content">
+        <div class="body-content" id="body-content">
           <!-- Main hero section -->
           <div>
             <div class="hero min-h-[40vh] md:min-h-[50vh] bg-cover bg-center" style="background-image: url(./images/hero_placeholder.jpg);">
@@ -398,86 +395,90 @@
             </div>
           </div>
           <!-- End of contact us and location section -->
-
-          <!-- Footer -->
-          <div>
-            <footer class="footer lg:footer-horizontal bg-neutral text-neutral-content p-10">
-              <aside>
-                <a href="" class="py-2">
-                  <img src="./images/Brawa_logo_hor.jpg" alt="Brawa Logo" class="w-auto h-18 rounded-lg">
-                </a>
-                <p>
-                  Brawa AutoImport SRL
-                  <br />
-                  Copyright © 2025 Brawa. All Rights Reserved.
-                </p>
-              </aside>
-              <nav>
-                <h6 class="footer-title">Financing</h6>
-                <a class="link link-hover">Get Pre-Qualified</a>
-                <a class="link link-hover">Banks & Finance Companies</a>
-                <a class="link link-hover">Payment Calculator</a>
-              </nav>
-              <nav>
-                <h6 class="footer-title">Sell/Trade</h6>
-                <a class="link link-hover">Get an Offer</a>
-              </nav>
-              <nav>
-                <h6 class="footer-title">About & Support</h6>
-                <a class="link link-hover">About Brawa</a>
-                <a class="link link-hover">Customer Reviews</a>
-                <a class="link link-hover">Buying from Brawa</a>
-                <a class="link link-hover">Finance with Brawa</a>
-                <a class="link link-hover">Selling or Trading In</a>
-              </nav>
-              <nav>
-                <h6 class="footer-title">Social</h6>
-                <div class="grid grid-flow-col gap-4">
-                  <!-- Instagram logo -->
-                  <a>
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" width="24" height="24" class="fill-current">
-                      <g>
-                        <path d="M12,2.162c3.204,0,3.584,0.012,4.849,0.07c1.308,0.06,2.655,0.358,3.608,1.311c0.962,0.962,1.251,2.296,1.311,3.608   c0.058,1.265,0.07,1.645,0.07,4.849c0,3.204-0.012,3.584-0.07,4.849c-0.059,1.301-0.364,2.661-1.311,3.608   c-0.962,0.962-2.295,1.251-3.608,1.311c-1.265,0.058-1.645,0.07-4.849,0.07s-3.584-0.012-4.849-0.07   c-1.291-0.059-2.669-0.371-3.608-1.311c-0.957-0.957-1.251-2.304-1.311-3.608c-0.058-1.265-0.07-1.645-0.07-4.849   c0-3.204,0.012-3.584,0.07-4.849c0.059-1.296,0.367-2.664,1.311-3.608c0.96-0.96,2.299-1.251,3.608-1.311   C8.416,2.174,8.796,2.162,12,2.162 M12,0C8.741,0,8.332,0.014,7.052,0.072C5.197,0.157,3.355,0.673,2.014,2.014   C0.668,3.36,0.157,5.198,0.072,7.052C0.014,8.332,0,8.741,0,12c0,3.259,0.014,3.668,0.072,4.948c0.085,1.853,0.603,3.7,1.942,5.038   c1.345,1.345,3.186,1.857,5.038,1.942C8.332,23.986,8.741,24,12,24c3.259,0,3.668-0.014,4.948-0.072   c1.854-0.085,3.698-0.602,5.038-1.942c1.347-1.347,1.857-3.184,1.942-5.038C23.986,15.668,24,15.259,24,12   c0-3.259-0.014-3.668-0.072-4.948c-0.085-1.855-0.602-3.698-1.942-5.038c-1.343-1.343-3.189-1.858-5.038-1.942   C15.668,0.014,15.259,0,12,0z"/>
-                        <path d="M12,5.838c-3.403,0-6.162,2.759-6.162,6.162c0,3.403,2.759,6.162,6.162,6.162s6.162-2.759,6.162-6.162   C18.162,8.597,15.403,5.838,12,5.838z M12,16c-2.209,0-4-1.791-4-4s1.791-4,4-4s4,1.791,4,4S14.209,16,12,16z"/>
-                        <circle cx="18.406" cy="5.594" r="1.44"/>
-                      </g>
-                    </svg>
-                  </a>
-                  <!-- Facebook logo -->
-                  <a>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      class="fill-current">
-                      <path
-                        d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-                    </svg>
-                  </a>
-                </div>
-              </nav>
-            </footer>
-          </div>
-          <!-- End of footer -->
         </div>
         <!-- End of body content after nav bar -->
+
+        <!-- Footer -->
+        <div>
+          <footer class="footer lg:footer-horizontal bg-neutral text-neutral-content p-10">
+            <aside>
+              <a href="" class="py-2">
+                <img src="./images/Brawa_logo_hor.jpg" alt="Brawa Logo" class="w-auto h-18 rounded-lg">
+              </a>
+              <p>
+                Brawa AutoImport SRL
+                <br />
+                Copyright © 2025 Brawa. All Rights Reserved.
+              </p>
+            </aside>
+            <nav>
+              <h6 class="footer-title">Financing</h6>
+              <a class="link link-hover">Get Pre-Qualified</a>
+              <a class="link link-hover">Banks & Finance Companies</a>
+              <a class="link link-hover">Payment Calculator</a>
+            </nav>
+            <nav>
+              <h6 class="footer-title">Sell/Trade</h6>
+              <a class="link link-hover">Get an Offer</a>
+            </nav>
+            <nav>
+              <h6 class="footer-title">About & Support</h6>
+              <a class="link link-hover">About Brawa</a>
+              <a class="link link-hover">Customer Reviews</a>
+              <a class="link link-hover">Buying from Brawa</a>
+              <a class="link link-hover">Finance with Brawa</a>
+              <a class="link link-hover">Selling or Trading In</a>
+            </nav>
+            <nav>
+              <h6 class="footer-title">Social</h6>
+              <div class="grid grid-flow-col gap-4">
+                <!-- Instagram logo -->
+                <a>
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" width="24" height="24" class="fill-current">
+                    <g>
+                      <path d="M12,2.162c3.204,0,3.584,0.012,4.849,0.07c1.308,0.06,2.655,0.358,3.608,1.311c0.962,0.962,1.251,2.296,1.311,3.608   c0.058,1.265,0.07,1.645,0.07,4.849c0,3.204-0.012,3.584-0.07,4.849c-0.059,1.301-0.364,2.661-1.311,3.608   c-0.962,0.962-2.295,1.251-3.608,1.311c-1.265,0.058-1.645,0.07-4.849,0.07s-3.584-0.012-4.849-0.07   c-1.291-0.059-2.669-0.371-3.608-1.311c-0.957-0.957-1.251-2.304-1.311-3.608c-0.058-1.265-0.07-1.645-0.07-4.849   c0-3.204,0.012-3.584,0.07-4.849c0.059-1.296,0.367-2.664,1.311-3.608c0.96-0.96,2.299-1.251,3.608-1.311   C8.416,2.174,8.796,2.162,12,2.162 M12,0C8.741,0,8.332,0.014,7.052,0.072C5.197,0.157,3.355,0.673,2.014,2.014   C0.668,3.36,0.157,5.198,0.072,7.052C0.014,8.332,0,8.741,0,12c0,3.259,0.014,3.668,0.072,4.948c0.085,1.853,0.603,3.7,1.942,5.038   c1.345,1.345,3.186,1.857,5.038,1.942C8.332,23.986,8.741,24,12,24c3.259,0,3.668-0.014,4.948-0.072   c1.854-0.085,3.698-0.602,5.038-1.942c1.347-1.347,1.857-3.184,1.942-5.038C23.986,15.668,24,15.259,24,12   c0-3.259-0.014-3.668-0.072-4.948c-0.085-1.855-0.602-3.698-1.942-5.038c-1.343-1.343-3.189-1.858-5.038-1.942   C15.668,0.014,15.259,0,12,0z"/>
+                      <path d="M12,5.838c-3.403,0-6.162,2.759-6.162,6.162c0,3.403,2.759,6.162,6.162,6.162s6.162-2.759,6.162-6.162   C18.162,8.597,15.403,5.838,12,5.838z M12,16c-2.209,0-4-1.791-4-4s1.791-4,4-4s4,1.791,4,4S14.209,16,12,16z"/>
+                      <circle cx="18.406" cy="5.594" r="1.44"/>
+                    </g>
+                  </svg>
+                </a>
+                <!-- Facebook logo -->
+                <a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    class="fill-current">
+                    <path
+                      d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
+                  </svg>
+                </a>
+              </div>
+            </nav>
+          </footer>
+        </div>
+        <!-- End of footer -->
       </div>
       <!-- End of body container -->
 
       <!--HTMX script-->
       <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
       <!--End of HTMX-->
+
       <!--DaisyUI script-->
       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
       <!--End of DaisyUI-->
+
       <!--jQuery-->
       <script src="./js/jquery-3.7.1.min.js"></script>
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
       <!--End of jQuery-->
+
       <!--Search JS-->
       <script src="./js/search.js"></script>
       <!--End of Search JS-->
+
       <!--Load stats JS-->
       <script src="./js/load-stats.js"></script>
       <!--End of Load stats JS-->
