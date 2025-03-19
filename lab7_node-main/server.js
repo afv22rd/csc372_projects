@@ -28,7 +28,7 @@ var server = http.createServer(function (request, response) {
     // Route handling based on the path
     switch(path) {
         case '':
-        case '/':
+        case '/index':
             serveStaticFile('./public/index.html', response, 'text/html');
             break;
         case '/posts':
