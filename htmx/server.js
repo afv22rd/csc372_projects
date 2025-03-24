@@ -1745,6 +1745,11 @@ app.post('/toggle-make', express.urlencoded({ extended: true }), (req, res) => {
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
+// 404 handler for any unmatched routes
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 app.listen(3000, () => {
     console.log(`Server is running on http://localhost:3000`);
 });

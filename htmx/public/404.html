@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="caramellatte" class="bg-white">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
+      <title>404 - Page Not Found</title>
+      <!--Tailwind CSS and DaisyUI -->
+      <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.8/daisyui.css" rel="stylesheet" type="text/css" />
+      <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.8/themes.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body hx-boost="true">
+    <!-- Body container -->
+    <div class="mx-auto bg-base-100 min-h-screen flex flex-col">
+      <!-- Header -->
+      <header>
+        <nav>
+          <div class="navbar bg-base-100 shadow-sm flex-col lg:flex-row p-6 gap-4">
+            <!-- Logo -->
+            <div class="flex-1">
+              <a href="/" class="py-2">
+                <img src="./images/Brawa_logo_hor.svg" alt="Brawa Logo" class="w-auto h-10">
+              </a>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <!-- End Header -->
+
+      <!-- Error content -->
+      <div class="flex-grow flex items-center justify-center p-4">
+        <div class="text-center max-w-2xl mx-auto">
+          <div class="mb-8">
+            <h1 class="text-9xl font-bold text-primary">404</h1>
+            <h2 class="text-3xl font-semibold mt-4">Page Not Found</h2>
+            <p class="mt-4 text-lg text-gray-600">
+              Sorry, the page you are looking for doesn't exist or has been moved.
+            </p>
+          </div>
+
+          <div class="flex flex-col md:flex-row gap-4 justify-center mt-8">
+            <a href="/" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
+              Back to Home
+            </a>
+            <a href="/search-cars" class="btn btn-outline">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+              Search Cars
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- End of error content -->
+
+      <!-- Footer -->
+      <div>
+        <footer class="footer lg:footer-horizontal bg-neutral text-neutral-content p-10">
+          <aside>
+            <a href="/" class="py-2">
+              <img src="./images/Brawa_logo_hor.jpg" alt="Brawa Logo" class="w-auto h-18 rounded-lg">
+            </a>
+            <p>
+              Brawa AutoImport SRL
+              <br />
+              Copyright © 2025 Brawa. All Rights Reserved.
+            </p>
+          </aside>
+          <nav>
+            <h6 class="footer-title">Financing</h6>
+            <a href="/" class="link link-hover">Get Pre-Qualified</a>
+            <a href="/" class="link link-hover">Banks & Finance Companies</a>
+            <a href="/" class="link link-hover">Payment Calculator</a>
+          </nav>
+          <nav>
+            <h6 class="footer-title">Sell/Trade</h6>
+            <a href="/" class="link link-hover">Get an Offer</a>
+          </nav>
+          <nav>
+            <h6 class="footer-title">About & Support</h6>
+            <a href="/" class="link link-hover">About Brawa</a>
+            <a href="/" class="link link-hover">Customer Reviews</a>
+            <a href="/" class="link link-hover">Buying from Brawa</a>
+            <a href="/" class="link link-hover">Finance with Brawa</a>
+            <a href="/" class="link link-hover">Selling or Trading In</a>
+          </nav>
+        </footer>
+      </div>
+      <!-- End of footer -->
+    </div>
+    <!-- End of body container -->
+
+    <!--HTMX script-->
+    <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
+    <!--End of HTMX-->
+
+    <!--DaisyUI script-->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!--End of DaisyUI-->
+
+    <!--jQuery-->
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!--End of jQuery-->
+  </body>
+</html>
