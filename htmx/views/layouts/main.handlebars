@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="caramellatte" class="bg-white">
+    <head>
+        <!-- Basic meta tags for character encoding and responsive design -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- HTMX configuration to allow external requests -->
+        <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
+        <!-- Website author and contact information -->
+        <meta name="author" content="Abel Frias">
+        <meta name="email" content="afriasv@uri.edu">
+        <!-- SEO meta tags for search engines to understand the website's purpose -->
+        <meta name="description" content="Buy, sell, and finance vehicles online in the Dominican Republic. Discover our wide selection of cars, easy financing options, and hassle-free car imports at the best rates.">
+        <meta name="keywords" content="buy car Dominican Republic, sell car Dominican Republic, finance car Dominican Republic, car imports, online car dealership">
+        <!-- Dynamic page title from Handlebars context -->
+        <title>{{title}}</title>
+        <!-- Base URL for all relative links -->
+        <base href="/">
+        <!-- DaisyUI components and themes (built on top of Tailwind CSS) -->
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.8/daisyui.css" rel="stylesheet" type="text/css" />
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.8/themes.css" rel="stylesheet" type="text/css" />
+        <!-- Site-specific custom styles -->
+        <link rel="stylesheet" href="./css/index-style.css">
+    </head>
+    <!-- HTMX boost makes all links and forms use AJAX instead of full page loads -->
+    <body hx-boost="true">
+      <!-- Main container for the entire page -->
+      <div class="mx-auto bg-base-100">
+        <!-- Header section containing the navigation bar -->
+        <header>
+          <nav>
+            <!-- Navbar with responsive design (column on mobile, row on desktop) -->
+            <div class="navbar bg-base-100 shadow-sm flex-col lg:flex-row p-6 gap-4">
+              <!-- Mobile-only: Top row with logo and user icons -->
+              <div class="w-full flex justify-between items-center lg:hidden">
+                <!-- Company logo for mobile view -->
+                <div class="flex-none">
+                  <a href="/" class="py-2">
+                    <img src="./images/Brawa_logo_hor.svg" alt="Brawa Logo" class="w-auto h-10">
+                  </a>
+                </div>
+                
+                <!-- Right-side icons for mobile (favorites and user menu) -->
+                <div class="flex-none">
+                  <div class="flex gap-2">
+                    <!-- Favorites dropdown with counter that updates via HTMX -->
+                    <div class="dropdown dropdown-end">
+                      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                        <div class="indicator">
+                          <!-- Heart icon for favorites -->
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                          </svg>                          
+                          <!-- Badge showing number of favorites, loaded via HTMX on page load -->
+                          <span class="badge badge-sm indicator-item" hx-get="/favorites?content=count" hx-trigger="load"></span>
+                        </div>
+                      </div>
+                      <!-- Dropdown content for favorites on mobile -->
+                      <div tabindex="0" class="card card-compact dropdown-content bg-base-100 z-50 mt-3 w-52 shadow">
+                        <div 
+                          class="card-body"
+                          hx-get="/favorites"
+                          hx-trigger="load"
+                          hx-target="#favorites-mobile"
+                        >
+                          <!-- Target div where HTMX will inject favorites content -->
+                          <div id="favorites-mobile">
+                            <!--Load content using AJAX from JSON-->
+                          </div>
+                          <div class="card-actions">
+                            <button class="btn btn-primary btn-block">View cart</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- User account dropdown menu on mobile -->
+                    <div class="dropdown dropdown-end">
+                      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                        <div class="w-10 rounded-full">
+                          <img alt="User avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
+                        </div>
+                      </div>
+                      <!-- User menu options -->
+                      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                        <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
+                        <li><a>Settings</a></li>
+                        <li><a>Logout</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Desktop-only: Logo section -->
+              <div class="hidden lg:flex flex-none">
+                <a href="/" class="py-2">
+                  <img src="./images/Brawa_logo_hor.svg" alt="Brawa Logo" class="w-auto h-10">
+                </a>
+              </div>
+        
+              <!-- Desktop-only: Main navigation links -->
+              <div class="hidden lg:flex navbar-start">
+                <ul class="menu menu-horizontal px-1 flex-1 gap-2">
+                  <!-- Search Cars navigation item with icon -->
+                  <li>
+                    <a 
+                      href="/search-cars"
+                      class="font-semibold {{#if (eq active 'search-cars')}}bg-base-300{{/if}}"
+                    >
+                      <!-- Search icon -->
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+                      </svg>                      
+                      Search Cars
+                    </a>
+                  </li>
+                  <!-- Sell/Trade navigation item with conditional active highlighting -->
+                  <li>
+                    <a href="/sell-trade" class="font-semibold {{#if (eq active 'sell-trade')}}bg-base-300{{/if}}">Sell/Trade</a>
+                  </li>
+                  <!-- Financing navigation item with conditional active highlighting -->
+                  <li>
+                    <a href="/financing" class="font-semibold {{#if (eq active 'financing')}}bg-base-300{{/if}}">Financing</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- End of desktop navigation links -->
+        
+              <!-- Desktop-only: Right side icons (favorites and user menu) -->
+              <div class="hidden lg:flex navbar-end">
+                <div class="flex gap-2">
+                  <!-- Favorites dropdown for desktop view -->
+                  <div class="dropdown dropdown-end">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                      <div class="indicator">
+                        <!-- Heart icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                        </svg>
+                        
+                        <!-- Badge showing number of favorites, loaded via HTMX -->
+                        <span class="badge badge-sm indicator-item" hx-get="/favorites?content=count" hx-trigger="load"></span>
+                      </div>
+                    </div>
+                    <!-- Dropdown content for favorites on desktop -->
+                    <div tabindex="0" class="card card-compact dropdown-content bg-base-100 z-50 mt-3 w-52 shadow">
+                      <div class="card-body" hx-get="/favorites" hx-trigger="load" hx-target="#favorites-desktop">
+                        <!-- Target div for HTMX to inject favorites content -->
+                        <div id="favorites-desktop">
+                          <!--Load content using AJAX from JSON-->
+                        </div>
+                        <div class="card-actions">
+                          <button class="btn btn-primary btn-block">View cart</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- User account dropdown menu for desktop -->
+                  <div class="dropdown dropdown-end">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                      <div class="w-10 rounded-full">
+                        <img alt="User avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
+                      </div>
+                    </div>
+                    <!-- User menu options dropdown -->
+                    <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
+                      <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
+                      <li><a>Settings</a></li>
+                      <li><a>Logout</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Mobile-only: Bottom navigation links -->
+              <div class="w-full lg:hidden flex justify-center">
+                <div class="flex gap-8 py-2 w-full justify-around">
+                  <!-- Search Cars link with icon for mobile -->
+                  <a href="/search-cars" class="text-sm font-semibold hover:text-primary p-2 rounded-lg {{#if (eq active 'search-cars')}}bg-base-300{{/if}}">
+                    <span class="flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" class="size-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+                      </svg>
+                      Search Cars
+                    </span>
+                  </a>
+                  <!-- Sell/Trade link for mobile with conditional active highlighting -->
+                  <a href="/sell-trade" class="text-sm font-semibold hover:text-primary p-2 rounded-lg {{#if (eq active 'sell-trade')}}bg-base-300{{/if}}">Sell/Trade</a>
+                  <!-- Financing link for mobile with conditional active highlighting -->
+                  <a href="/financing" class="text-sm font-semibold hover:text-primary p-2 rounded-lg {{#if (eq active 'financing')}}bg-base-300{{/if}}">Financing</a>
+                </div>
+              </div>
+              <!-- End of mobile navigation links -->
+            </div>
+          </nav>
+        </header>
+        <!-- End Header -->
+
+        <!-- Main content area where page-specific content is inserted -->
+        <div class="body-content" id="body-content">
+          <!-- Triple curly braces for unescaped HTML content from child templates -->
+          {{{body}}}
+        </div>
+        <!-- End of body content after nav bar -->
+
+        <!-- Footer section with company information and links -->
+        <div>
+          <!-- Responsive footer - vertical on mobile, horizontal on desktop -->
+          <footer class="footer lg:footer-horizontal bg-neutral text-neutral-content p-10">
+            <!-- Company information section -->
+            <aside>
+              <a href="" class="py-2">
+                <img src="./images/Brawa_logo_hor.jpg" alt="Brawa Logo" class="w-auto h-18 rounded-lg">
+              </a>
+              <p>
+                Brawa AutoImport SRL
+                <br />
+                Copyright © 2025 Brawa. All Rights Reserved.
+              </p>
+            </aside>
+            <!-- Footer navigation sections organized by category -->
+            <!-- Financing links section -->
+            <nav>
+              <h6 class="footer-title">Financing</h6>
+              <a class="link link-hover">Get Pre-Qualified</a>
+              <a class="link link-hover">Banks & Finance Companies</a>
+              <a class="link link-hover">Payment Calculator</a>
+            </nav>
+            <!-- Sell/Trade links section -->
+            <nav>
+              <h6 class="footer-title">Sell/Trade</h6>
+              <a class="link link-hover">Get an Offer</a>
+            </nav>
+            <!-- About & Support links section -->
+            <nav>
+              <h6 class="footer-title">About & Support</h6>
+              <a class="link link-hover">About Brawa</a>
+              <a class="link link-hover">Customer Reviews</a>
+              <a class="link link-hover">Buying from Brawa</a>
+              <a class="link link-hover">Finance with Brawa</a>
+              <a class="link link-hover">Selling or Trading In</a>
+            </nav>
+            <!-- Social media links section -->
+            <nav>
+              <h6 class="footer-title">Social</h6>
+              <div class="grid grid-flow-col gap-4">
+                <!-- Instagram logo SVG -->
+                <a>
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve" width="24" height="24" class="fill-current">
+                    <g>
+                      <path d="M12,2.162c3.204,0,3.584,0.012,4.849,0.07c1.308,0.06,2.655,0.358,3.608,1.311c0.962,0.962,1.251,2.296,1.311,3.608   c0.058,1.265,0.07,1.645,0.07,4.849c0,3.204-0.012,3.584-0.07,4.849c-0.059,1.301-0.364,2.661-1.311,3.608   c-0.962,0.962-2.295,1.251-3.608,1.311c-1.265,0.058-1.645,0.07-4.849,0.07s-3.584-0.012-4.849-0.07   c-1.291-0.059-2.669-0.371-3.608-1.311c-0.957-0.957-1.251-2.304-1.311-3.608c-0.058-1.265-0.07-1.645-0.07-4.849   c0-3.204,0.012-3.584,0.07-4.849c0.059-1.296,0.367-2.664,1.311-3.608c0.96-0.96,2.299-1.251,3.608-1.311   C8.416,2.174,8.796,2.162,12,2.162 M12,0C8.741,0,8.332,0.014,7.052,0.072C5.197,0.157,3.355,0.673,2.014,2.014   C0.668,3.36,0.157,5.198,0.072,7.052C0.014,8.332,0,8.741,0,12c0,3.259,0.014,3.668,0.072,4.948c0.085,1.853,0.603,3.7,1.942,5.038   c1.345,1.345,3.186,1.857,5.038,1.942C8.332,23.986,8.741,24,12,24c3.259,0,3.668-0.014,4.948-0.072   c1.854-0.085,3.698-0.602,5.038-1.942c1.347-1.347,1.857-3.184,1.942-5.038C23.986,15.668,24,15.259,24,12   c0-3.259-0.014-3.668-0.072-4.948c-0.085-1.855-0.602-3.698-1.942-5.038c-1.343-1.343-3.189-1.858-5.038-1.942   C15.668,0.014,15.259,0,12,0z"/>
+                      <path d="M12,5.838c-3.403,0-6.162,2.759-6.162,6.162c0,3.403,2.759,6.162,6.162,6.162s6.162-2.759,6.162-6.162   C18.162,8.597,15.403,5.838,12,5.838z M12,16c-2.209,0-4-1.791-4-4s1.791-4,4-4s4,1.791,4,4S14.209,16,12,16z"/>
+                      <circle cx="18.406" cy="5.594" r="1.44"/>
+                    </g>
+                  </svg>
+                </a>
+                <!-- Facebook logo SVG -->
+                <a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    class="fill-current">
+                    <path
+                      d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
+                  </svg>
+                </a>
+              </div>
+            </nav>
+          </footer>
+        </div>
+        <!-- End of footer -->
+      </div>
+      <!-- End of body container -->
+
+      <!-- JavaScript Libraries Section -->
+      
+      <!-- HTMX -->
+      <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
+      <!-- End of HTMX -->
+
+      <!-- Tailwind CSS browser script for DaisyUI components -->
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      <!-- End of DaisyUI -->
+
+      <!-- jQuery libraries - local fallback and CDN version -->
+      <script src="./js/jquery-3.7.1.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+      <!-- End of jQuery -->
+
+      <!-- Search functionality JavaScript -->
+      <script src="./js/search.js"></script>
+      
+      <!-- Statistics loading JavaScript -->
+      <script src="./js/load-stats.js"></script>
+      
+      <!-- Geolocation services JavaScript -->
+      <script src="./js/get-location.js"></script>
+    </body>
+</html>
