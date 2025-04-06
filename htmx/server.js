@@ -52,6 +52,7 @@ app.get('/search-cars', (req, res) => {
 // Route handler to determine the user's location based on coordinates
 app.get('/location', async (req, res) => {
     try {
+        console.log('Location request:', req.query);
         // Extract latitude and longitude from the query parameters
         const { latitude, longitude } = req.query;
         if (latitude && longitude) {
@@ -61,9 +62,11 @@ app.get('/location', async (req, res) => {
 
             // Check if the response contains address data
             if (response.data && response.data.address) {
-                const province = response.data.address.state;
-                const city = response.data.address.city;
-
+                let province = response.data.address.state;
+                let city = response.data.address.city;
+                if (city === undefined) {
+                    city = response.data.address.town;
+                }
                 // Return the formatted location as "City, Province"
                 return res.send(`${city}, ${province}`);
             }
@@ -85,16 +88,16 @@ app.get('/popular-searches', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'data', 'popular-searches.html'));
 });
 
-// Function to load vehicle data from a JSON file
-const loadVehiclesData = () => {
+// Function to load vehicle data from the PHP API
+const loadVehiclesData = async () => {
     try {
-        // Read the JSON file containing vehicle data
-        const data = fs.readFileSync(path.join(__dirname, 'public', 'data', 'vehicles.json'), 'utf8');
-        // Parse the JSON string into a JavaScript object
-        return JSON.parse(data);
+        // Make a request to the PHP API to get all vehicles
+        const response = await axios.get('https://your-cpanel-domain.com/api/api.php?action=all');
+        // Return the vehicles from the response
+        return response.data.vehicles || [];
     } catch (err) {
-        // Log any errors that occur during file loading
-        console.error('Error loading vehicles data:', err);
+        // Log any errors that occur during API request
+        console.error('Error loading vehicles data from PHP API:', err);
         // Return an empty array if there's an error
         return [];
     }
@@ -102,10 +105,10 @@ const loadVehiclesData = () => {
 
 // Route to load and display vehicle cards for the search results
 app.get('/load-vehicles', async(req, res) => {
-    // Load the vehicle data from the JSON file
-    const vehicles = loadVehiclesData();
-
     try {
+        // Load the vehicle data from the PHP API
+        const vehicles = await loadVehiclesData();
+
         // For each vehicle, generate an HTML card with all its details
         // Each card includes:
         // - Image carousel with navigation
@@ -192,47 +195,46 @@ app.get('/search-results', (req, res) => {
 });
 
 // Route to handle search functionality
-app.post('/search', (req, res) => {
-    // Load all vehicle data
-    const vehicles = loadVehiclesData();
-    // Get the search term from the request body and convert to lowercase
-    const searchTerm = req.body.search?.toLowerCase() || '';
+app.post('/search', async (req, res) => {
+    try {
+        // Get the search term from the request body and convert to lowercase
+        const searchTerm = req.body.search?.toLowerCase() || '';
 
-    let responseHTML = '';
+        let responseHTML = '';
 
-    // If search field is empty, show popular searches instead of results
-    if (!searchTerm) {
-        // Read the popular searches HTML file
-        responseHTML = fs.readFileSync(path.join(__dirname, 'public', 'data', 'popular-searches.html'),'utf8');
-    } else {
-        // Filter vehicles that match the search term
-        // A vehicle matches if the make, model, or year contains the search term
-        const searchResults = vehicles.filter(vehicle => {
-            return vehicle.make.toLowerCase().includes(searchTerm) ||
-                   vehicle.model.toLowerCase().includes(searchTerm) ||
-                   vehicle.year.toString().includes(searchTerm);
-        });
+        // If search field is empty, show popular searches instead of results
+        if (!searchTerm) {
+            // Read the popular searches HTML file
+            responseHTML = fs.readFileSync(path.join(__dirname, 'public', 'data', 'popular-searches.html'),'utf8');
+        } else {
+            // Make a request to the PHP API to search for vehicles
+            const response = await axios.get(`https://your-cpanel-domain.com/api/api.php?action=search&term=${encodeURIComponent(searchTerm)}`);
+            const searchResults = response.data.vehicles || [];
 
-        // Read the template for individual search results
-        const searchResultsTemplate = fs.readFileSync(path.join(__dirname, 'public', 'data', 'search-results.html'),'utf8');
-        
-        // For each matching vehicle, create an entry using the template
-        // Replace placeholders in the template with actual vehicle data
-        responseHTML = searchResults.map(vehicle => {
-            return searchResultsTemplate
-                .replace('{{make}}', vehicle.make)
-                .replace('{{model}}', vehicle.model)
-                .replace('{{year}}', vehicle.year);
-        }).join('');
+            // Read the template for individual search results
+            const searchResultsTemplate = fs.readFileSync(path.join(__dirname, 'public', 'data', 'search-results.html'),'utf8');
+            
+            // For each matching vehicle, create an entry using the template
+            // Replace placeholders in the template with actual vehicle data
+            responseHTML = searchResults.map(vehicle => {
+                return searchResultsTemplate
+                    .replace('{{make}}', vehicle.make)
+                    .replace('{{model}}', vehicle.model)
+                    .replace('{{year}}', vehicle.year);
+            }).join('');
 
-        // If no vehicles match the search term, show a message
-        if (!responseHTML) {
-            responseHTML = '<div class="p-2 text-gray-500">No vehicles found</div>';
+            // If no vehicles match the search term, show a message
+            if (!responseHTML) {
+                responseHTML = '<div class="p-2 text-gray-500">No vehicles found</div>';
+            }
         }
+        
+        // Send the final HTML response
+        res.send(responseHTML);
+    } catch (error) {
+        console.error('Error searching vehicles:', error);
+        res.status(500).send('<div class="alert alert-error">Error searching vehicles</div>');
     }
-    
-    // Send the final HTML response
-    res.send(responseHTML);
 });
 
 // Route to handle requests for popular vehicle styles
@@ -475,8 +477,65 @@ app.use((req, res) => {
     res.status(404).render('404', { title: "Page Not Found | Brawa AutoImport | Buy, Sell & Finance Vehicles Online | Used Cars for Sale in Dominican Republic" });
 });
 
+// Route handler for the PHP vehicles page
+app.get('/php-vehicles', (req, res) => {
+    // Render the 'php-vehicles' template with title and active page marker
+    res.render('php-vehicles', {title: "PHP Vehicles | Brawa AutoImport | Buy, Sell & Finance Vehicles Online | Used Cars for Sale in Dominican Republic", active: 'php-vehicles'});
+});
+
+// Route to proxy requests to the PHP API
+// This route is used by the Render-hosted frontend to communicate with the cPanel-hosted PHP API
+app.get('/php-api-search', async (req, res) => {
+    try {
+        const searchTerm = req.query.term || '';
+        
+        // Make a request to the PHP API hosted on cPanel
+        const response = await axios.get(`https://your-cpanel-domain.com/api/api.php?action=search&term=${encodeURIComponent(searchTerm)}`);
+        
+        // Return the response from the PHP API
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error searching vehicles via PHP API:', error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Error searching vehicles'
+        });
+    }
+});
+
+// Route to proxy filter requests to the PHP API
+// This route is used by the Render-hosted frontend to communicate with the cPanel-hosted PHP API
+app.get('/php-api-filter', async (req, res) => {
+    try {
+        // Extract filter parameters from the request
+        const { make, model, min_year, max_year, min_price, max_price, body_type } = req.query;
+        
+        // Build the query string for the PHP API
+        let queryString = 'action=filter';
+        
+        if (make) queryString += `&make=${encodeURIComponent(make)}`;
+        if (model) queryString += `&model=${encodeURIComponent(model)}`;
+        if (min_year) queryString += `&min_year=${encodeURIComponent(min_year)}`;
+        if (max_year) queryString += `&max_year=${encodeURIComponent(max_year)}`;
+        if (min_price) queryString += `&min_price=${encodeURIComponent(min_price)}`;
+        if (max_price) queryString += `&max_price=${encodeURIComponent(max_price)}`;
+        if (body_type) queryString += `&body_type=${encodeURIComponent(body_type)}`;
+        
+        // Make a request to the PHP API hosted on cPanel
+        const response = await axios.get(`https://your-cpanel-domain.com/api/api.php?${queryString}`);
+        
+        // Return the response from the PHP API
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error filtering vehicles via PHP API:', error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Error filtering vehicles'
+        });
+    }
+});
+
 // Start the server on port 3000
 app.listen(3000, () => {
     console.log(`Server is running on http://localhost:3000`);
 });
-

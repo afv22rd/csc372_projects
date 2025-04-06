@@ -1,0 +1,228 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Vehicles from PHP API</h1>
+    
+    <!-- Search Form -->
+    <div class="bg-base-200 p-4 rounded-lg mb-8">
+        <h2 class="text-xl font-semibold mb-4">Search Vehicles</h2>
+        <form class="flex flex-col md:flex-row gap-4" hx-get="/php-api-search" hx-target="#vehicle-results" hx-trigger="submit">
+            <input type="text" name="term" placeholder="Search by make, model, or year" class="input input-bordered flex-grow" />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    
+    <!-- Filter Form -->
+    <div class="bg-base-200 p-4 rounded-lg mb-8">
+        <h2 class="text-xl font-semibold mb-4">Filter Vehicles</h2>
+        <form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" hx-get="/php-api-filter" hx-target="#vehicle-results" hx-trigger="change">
+            <div>
+                <label class="label">Make</label>
+                <select name="make" class="select select-bordered w-full">
+                    <option value="">All Makes</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Kia">Kia</option>
+                    <option value="Mazda">Mazda</option>
+                    <option value="Subaru">Subaru</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="label">Body Type</label>
+                <select name="body_type" class="select select-bordered w-full">
+                    <option value="">All Body Types</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Van">Van</option>
+                    <option value="Coupe">Coupe</option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="label">Min Year</label>
+                <input type="number" name="min_year" min="2000" max="2023" class="input input-bordered w-full" />
+            </div>
+            
+            <div>
+                <label class="label">Max Year</label>
+                <input type="number" name="max_year" min="2000" max="2023" class="input input-bordered w-full" />
+            </div>
+            
+            <div>
+                <label class="label">Min Price</label>
+                <input type="number" name="min_price" min="0" step="1000" class="input input-bordered w-full" />
+            </div>
+            
+            <div>
+                <label class="label">Max Price</label>
+                <input type="number" name="max_price" min="0" step="1000" class="input input-bordered w-full" />
+            </div>
+        </form>
+    </div>
+    
+    <!-- Vehicle Results -->
+    <div id="vehicle-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Vehicle cards will be loaded here -->
+    </div>
+    
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="hidden flex justify-center items-center py-8">
+        <span class="loading loading-spinner loading-lg"></span>
+    </div>
+</div>
+
+<!-- Vehicle Card Template -->
+<template id="vehicle-card-template">
+    <div class="card bg-base-100 shadow-sm w-full">
+        <!-- Image section -->
+        <figure class="relative">
+            <!-- Carousel -->
+            <div class="carousel w-full rounded-t-lg h-48 md:h-56 lg:h-60 overflow-hidden relative">
+                <!-- Carousel items will be inserted here -->
+            </div>
+            <!-- End of Carousel -->
+    
+            <!-- Favorite Heart Icon -->
+            <button class="absolute top-2 right-2 btn btn-circle btn-sm bg-base-100 bg-opacity-70" hx-post="/toggle-favorite" hx-vals='{"vehicleId": ""}' hx-swap="none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </button>
+            <!-- End of Favorite Heart Icon -->
+        </figure>
+    
+        <!-- Card body with vehicle information -->
+        <div class="card-body p-4">
+            <!-- Year Make Model - Primary vehicle identifier -->
+            <h2 class="card-title text-lg font-bold vehicle-title"></h2>
+            
+            <!-- Spec line - Additional vehicle specifications -->
+            <div class="flex items-center text-sm text-gray-500 vehicle-specs"></div>
+            
+            <!-- Price - Vehicle cost with formatting for thousands separator -->
+            <div class="mt-2">
+                <span class="text-2xl font-bold vehicle-price"></span>
+            </div>
+            
+            <!-- Payment info - Estimated monthly payment and down payment -->
+            <div class="mt-2 text-sm text-gray-600 vehicle-payments"></div>
+        </div>
+    </div>
+</template>
+
+<!-- JavaScript to handle the PHP API integration -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load all vehicles when the page loads
+        // This makes a request to the Node.js server, which then proxies the request to the cPanel-hosted PHP API
+        fetch('https://your-cpanel-domain.com/api/api.php?action=all')
+            .then(response => response.json())
+            .then(data => {
+                displayVehicles(data);
+            })
+            .catch(error => {
+                console.error('Error loading vehicles:', error);
+                document.getElementById('vehicles-container').innerHTML = '<div class="alert alert-error">Error loading vehicles</div>';
+            });
+
+        // Handle search form submission
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchTerm = document.getElementById('search-input').value;
+            
+            // Show loading indicator
+            document.getElementById('vehicles-container').innerHTML = '<div class="flex justify-center"><span class="loading loading-spinner loading-lg"></span></div>';
+            
+            // Send search request to the Node.js server, which then proxies the request to the cPanel-hosted PHP API
+            fetch(`/php-api-search?term=${encodeURIComponent(searchTerm)}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayVehicles(data);
+                })
+                .catch(error => {
+                    console.error('Error searching vehicles:', error);
+                    document.getElementById('vehicles-container').innerHTML = '<div class="alert alert-error">Error searching vehicles</div>';
+                });
+        });
+
+        // Handle filter form submission
+        document.getElementById('filter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get filter values
+            const make = document.getElementById('make-filter').value;
+            const model = document.getElementById('model-filter').value;
+            const minYear = document.getElementById('min-year').value;
+            const maxYear = document.getElementById('max-year').value;
+            const minPrice = document.getElementById('min-price').value;
+            const maxPrice = document.getElementById('max-price').value;
+            const bodyType = document.getElementById('body-type').value;
+            
+            // Build query parameters
+            const params = new URLSearchParams();
+            params.append('action', 'filter');
+            if (make) params.append('make', make);
+            if (model) params.append('model', model);
+            if (minYear) params.append('min_year', minYear);
+            if (maxYear) params.append('max_year', maxYear);
+            if (minPrice) params.append('min_price', minPrice);
+            if (maxPrice) params.append('max_price', maxPrice);
+            if (bodyType) params.append('body_type', bodyType);
+            
+            // Show loading indicator
+            document.getElementById('vehicles-container').innerHTML = '<div class="flex justify-center"><span class="loading loading-spinner loading-lg"></span></div>';
+            
+            // Send filter request to the Node.js server, which then proxies the request to the cPanel-hosted PHP API
+            fetch(`/php-api-filter?${params.toString()}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayVehicles(data);
+                })
+                .catch(error => {
+                    console.error('Error filtering vehicles:', error);
+                    document.getElementById('vehicles-container').innerHTML = '<div class="alert alert-error">Error filtering vehicles</div>';
+                });
+        });
+
+        // Function to display vehicles
+        function displayVehicles(vehicles) {
+            const container = document.getElementById('vehicles-container');
+            
+            if (vehicles.length === 0) {
+                container.innerHTML = '<div class="alert alert-info">No vehicles found</div>';
+                return;
+            }
+            
+            let html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
+            
+            vehicles.forEach(vehicle => {
+                html += `
+                    <div class="card bg-base-100 shadow-xl">
+                        <figure class="px-4 pt-4">
+                            <img src="${vehicle.images[0]}" alt="${vehicle.year} ${vehicle.make} ${vehicle.model}" class="rounded-xl h-48 w-full object-cover" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">${vehicle.year} ${vehicle.make} ${vehicle.model}</h2>
+                            <p class="text-sm text-gray-500">${vehicle.body_type} • ${vehicle.fuel_type}</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-xl font-bold">$${vehicle.price.toLocaleString()}</span>
+                                <span class="text-sm text-gray-500">${vehicle.mileage.toLocaleString()} miles</span>
+                            </div>
+                            <div class="card-actions justify-end mt-4">
+                                <button class="btn btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+    });
+</script> 
