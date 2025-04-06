@@ -12,7 +12,7 @@
 require_once 'vehicle.php';
 
 // Set CORS headers to allow requests from Render domain
-header('Access-Control-Allow-Origin: https://brawaautoimport.onrender.com'); // Updated with actual Render domain
+header('Access-Control-Allow-Origin: https://brawaautoimport2.onrender.com'); // Updated with actual Render domain
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
@@ -208,12 +208,6 @@ switch ($action) {
         $minPrice = $_GET['min_price'] ?? 0;
         $maxPrice = $_GET['max_price'] ?? PHP_FLOAT_MAX;
         $bodyType = $_GET['body_type'] ?? '';
-        $fuelType = $_GET['fuel_type'] ?? '';
-        $color = $_GET['color'] ?? '';
-        $seating = $_GET['seating'] ?? '';
-        $drivetrain = $_GET['drivetrain'] ?? '';
-        $transmission = $_GET['transmission'] ?? '';
-        $cylinders = $_GET['cylinders'] ?? '';
         
         $vehicles = getAllVehicles();
         $filteredResults = [];
@@ -238,30 +232,6 @@ switch ($action) {
             }
             
             if (!empty($bodyType) && $vehicle->getBodyType() !== $bodyType) {
-                $matches = false;
-            }
-            
-            if (!empty($fuelType) && $vehicle->getFuelType() !== $fuelType) {
-                $matches = false;
-            }
-            
-            if (!empty($color) && $vehicle->getColor() !== $color) {
-                $matches = false;
-            }
-            
-            if (!empty($seating) && $vehicle->getSeating() != $seating) {
-                $matches = false;
-            }
-            
-            if (!empty($drivetrain) && $vehicle->getDrivetrain() !== $drivetrain) {
-                $matches = false;
-            }
-            
-            if (!empty($transmission) && $vehicle->getTransmission() !== $transmission) {
-                $matches = false;
-            }
-            
-            if (!empty($cylinders) && $vehicle->getCylinders() != $cylinders) {
                 $matches = false;
             }
             
