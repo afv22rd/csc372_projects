@@ -92,7 +92,7 @@ app.get('/popular-searches', (req, res) => {
 const loadVehiclesData = async () => {
     try {
         // Make a request to the PHP API to get all vehicles
-        const response = await axios.get('https://your-cpanel-domain.com/api/api.php?action=all');
+        const response = await axios.get('https://afriasv.rhody.dev/csc372_projects/htmx/api/api.php?action=all');
         // Return the vehicles from the response
         return response.data.vehicles || [];
     } catch (err) {
@@ -208,7 +208,7 @@ app.post('/search', async (req, res) => {
             responseHTML = fs.readFileSync(path.join(__dirname, 'public', 'data', 'popular-searches.html'),'utf8');
         } else {
             // Make a request to the PHP API to search for vehicles
-            const response = await axios.get(`https://your-cpanel-domain.com/api/api.php?action=search&term=${encodeURIComponent(searchTerm)}`);
+            const response = await axios.get(`https://afriasv.rhody.dev/csc372_projects/htmx/api/api.php?action=search&term=${encodeURIComponent(searchTerm)}`);
             const searchResults = response.data.vehicles || [];
 
             // Read the template for individual search results
@@ -484,13 +484,13 @@ app.get('/php-vehicles', (req, res) => {
 });
 
 // Route to proxy requests to the PHP API
-// This route is used by the Render-hosted frontend to communicate with the cPanel-hosted PHP API
+// This route is used by the Render-hosted frontend to communicate with the PHP API
 app.get('/php-api-search', async (req, res) => {
     try {
         const searchTerm = req.query.term || '';
         
-        // Make a request to the PHP API hosted on cPanel
-        const response = await axios.get(`https://your-cpanel-domain.com/api/api.php?action=search&term=${encodeURIComponent(searchTerm)}`);
+        // Make a request to the PHP API
+        const response = await axios.get(`https://afriasv.rhody.dev/csc372_projects/htmx/api/api.php?action=search&term=${encodeURIComponent(searchTerm)}`);
         
         // Return the response from the PHP API
         res.json(response.data);
@@ -504,7 +504,7 @@ app.get('/php-api-search', async (req, res) => {
 });
 
 // Route to proxy filter requests to the PHP API
-// This route is used by the Render-hosted frontend to communicate with the cPanel-hosted PHP API
+// This route is used by the Render-hosted frontend to communicate with the PHP API
 app.get('/php-api-filter', async (req, res) => {
     try {
         // Extract filter parameters from the request
@@ -521,8 +521,8 @@ app.get('/php-api-filter', async (req, res) => {
         if (max_price) queryString += `&max_price=${encodeURIComponent(max_price)}`;
         if (body_type) queryString += `&body_type=${encodeURIComponent(body_type)}`;
         
-        // Make a request to the PHP API hosted on cPanel
-        const response = await axios.get(`https://your-cpanel-domain.com/api/api.php?${queryString}`);
+        // Make a request to the PHP API
+        const response = await axios.get(`https://afriasv.rhody.dev/csc372_projects/htmx/api/api.php?${queryString}`);
         
         // Return the response from the PHP API
         res.json(response.data);

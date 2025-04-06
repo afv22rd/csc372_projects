@@ -5,7 +5,7 @@
  * This file provides an API endpoint for vehicle data that can be accessed by a Node.js/HTMX application.
  * It includes CORS headers to allow requests from the Render domain.
  * 
- * This API is designed to be hosted on cPanel.
+ * This API is hosted at afriasv.rhody.dev.
  */
 
 // Include the Vehicle class
