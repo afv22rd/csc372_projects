@@ -477,64 +477,6 @@ app.use((req, res) => {
     res.status(404).render('404', { title: "Page Not Found | Brawa AutoImport | Buy, Sell & Finance Vehicles Online | Used Cars for Sale in Dominican Republic" });
 });
 
-// Route handler for the PHP vehicles page
-app.get('/php-vehicles', (req, res) => {
-    // Render the 'php-vehicles' template with title and active page marker
-    res.render('php-vehicles', {title: "PHP Vehicles | Brawa AutoImport | Buy, Sell & Finance Vehicles Online | Used Cars for Sale in Dominican Republic", active: 'php-vehicles'});
-});
-
-// Route to proxy requests to the PHP API
-// This route is used by the Render-hosted frontend to communicate with the PHP API
-app.get('/php-api-search', async (req, res) => {
-    try {
-        const searchTerm = req.query.term || '';
-        
-        // Make a request to the PHP API
-        const response = await axios.get(`https://afriasv.rhody.dev/csc372_projects/htmx/api/api.php?action=search&term=${encodeURIComponent(searchTerm)}`);
-        
-        // Return the response from the PHP API
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error searching vehicles via PHP API:', error);
-        res.status(500).json({
-            status: 'error',
-            message: 'Error searching vehicles'
-        });
-    }
-});
-
-// Route to proxy filter requests to the PHP API
-// This route is used by the Render-hosted frontend to communicate with the PHP API
-app.get('/php-api-filter', async (req, res) => {
-    try {
-        // Extract filter parameters from the request
-        const { make, model, min_year, max_year, min_price, max_price, body_type } = req.query;
-        
-        // Build the query string for the PHP API
-        let queryString = 'action=filter';
-        
-        if (make) queryString += `&make=${encodeURIComponent(make)}`;
-        if (model) queryString += `&model=${encodeURIComponent(model)}`;
-        if (min_year) queryString += `&min_year=${encodeURIComponent(min_year)}`;
-        if (max_year) queryString += `&max_year=${encodeURIComponent(max_year)}`;
-        if (min_price) queryString += `&min_price=${encodeURIComponent(min_price)}`;
-        if (max_price) queryString += `&max_price=${encodeURIComponent(max_price)}`;
-        if (body_type) queryString += `&body_type=${encodeURIComponent(body_type)}`;
-        
-        // Make a request to the PHP API
-        const response = await axios.get(`https://afriasv.rhody.dev/csc372_projects/htmx/api/api.php?${queryString}`);
-        
-        // Return the response from the PHP API
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error filtering vehicles via PHP API:', error);
-        res.status(500).json({
-            status: 'error',
-            message: 'Error filtering vehicles'
-        });
-    }
-});
-
 // Start the server on port 3000
 app.listen(3000, () => {
     console.log(`Server is running on http://localhost:3000`);
