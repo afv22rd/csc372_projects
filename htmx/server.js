@@ -535,6 +535,111 @@ app.get('/php-api-filter', async (req, res) => {
     }
 });
 
+// Route to handle update-filter requests from the frontend
+app.post('/update-filter', express.json(), async (req, res) => {
+    try {
+        // Extract filter parameters from the request body
+        const { filter, value, checked } = req.body;
+        
+        // Initialize filter parameters
+        let filterParams = {};
+        
+        // Map the filter type to the appropriate parameter name
+        switch (filter) {
+            case 'make':
+                filterParams.make = value;
+                break;
+            case 'model':
+                filterParams.model = value;
+                break;
+            case 'yearMin':
+                filterParams.min_year = value;
+                break;
+            case 'yearMax':
+                filterParams.max_year = value;
+                break;
+            case 'priceMin':
+                filterParams.min_price = value;
+                break;
+            case 'priceMax':
+                filterParams.max_price = value;
+                break;
+            case 'body':
+                if (checked === 'true') {
+                    filterParams.body_type = value;
+                }
+                break;
+            case 'monthly':
+                // Handle monthly payment filter
+                // This would need to be calculated on the server side
+                break;
+            case 'down':
+                // Handle down payment filter
+                // This would need to be calculated on the server side
+                break;
+            case 'mileage':
+                // Handle mileage filter
+                // This would need to be mapped to min/max mileage
+                break;
+            case 'fuel':
+                if (checked === 'true') {
+                    filterParams.fuel_type = value;
+                }
+                break;
+            case 'color':
+                if (checked === 'true') {
+                    filterParams.color = value;
+                }
+                break;
+            case 'seats':
+                if (checked === 'true') {
+                    filterParams.seating = value;
+                }
+                break;
+            case 'drivetrain':
+                if (checked === 'true') {
+                    filterParams.drivetrain = value;
+                }
+                break;
+            case 'transmission':
+                if (checked === 'true') {
+                    filterParams.transmission = value;
+                }
+                break;
+            case 'cylinders':
+                if (checked === 'true') {
+                    filterParams.cylinders = value;
+                }
+                break;
+            default:
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Invalid filter type'
+                });
+        }
+        
+        // Build the query string for the PHP API
+        let queryString = 'action=filter';
+        
+        // Add each filter parameter to the query string
+        for (const [key, val] of Object.entries(filterParams)) {
+            if (val) queryString += `&${key}=${encodeURIComponent(val)}`;
+        }
+        
+        // Make a request to the PHP API
+        const response = await axios.get(`https://afriasv.rhody.dev/csc372_projects/htmx/api/api.php?${queryString}`);
+        
+        // Return the response from the PHP API
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error updating filter:', error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Error updating filter'
+        });
+    }
+});
+
 // Start the server on port 3000
 app.listen(3000, () => {
     console.log(`Server is running on http://localhost:3000`);
