@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // Load stats using AJAX
     $.ajax({
-      url: '../data/stats.html',
+      url: 'public/data/stats.html',
       type: 'GET',
       success: function(data) {
         $('#stats-container').html(data);

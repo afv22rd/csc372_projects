@@ -1,12 +1,24 @@
 $(document).ready(function() {
   // This function executes when the DOM is fully loaded
   
-  // Check if we have a previously stored location in the browser's local storage
-  const storedLocation = localStorage.getItem('userLocationName');
+  // Check if we have a location stored in cookies or localStorage
+  function getStoredLocation() {
+    // Try to get location from cookies first
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    };
+    
+    // Check for cookie first, fall back to localStorage
+    return getCookie('user_location') || localStorage.getItem('userLocationName');
+  }
+  
+  const storedLocation = getStoredLocation();
   
   if (storedLocation) {
-    // If a location exists in local storage, update the UI element with this stored value
-    // This avoids unnecessary API calls on repeat visits
+    // If a location exists, update the UI element with this stored value
     $('#location-name').html(storedLocation);
   } else {
     // For first-time visitors with no stored location, try to get their location automatically
@@ -33,14 +45,14 @@ $(document).ready(function() {
       const lon = position.coords.longitude;
       
       // Make an AJAX request to our server including precise coordinates
-      htmx.ajax('GET', '/location?latitude=' + lat + '&longitude=' + lon, {
+      htmx.ajax('GET', 'api/location.php?latitude=' + lat + '&longitude=' + lon, {
       target: '#location-name',  // Element to update with the response
       swap: 'innerHTML',         // Replace the inner HTML of the target
       // This runs before updating the UI with the response
       beforeSwap: function(swapInfo) {
         if (swapInfo.xhr.status === 200) {
         // If request was successful, save the location name to local storage
-        // for future page loads
+        // (Cookie already set on the server side)
         localStorage.setItem('userLocationName', swapInfo.serverResponse);
         }
         return true; // Proceed with updating the UI
@@ -51,7 +63,7 @@ $(document).ready(function() {
       console.error('Geolocation error:', error);
       
       // Fall back to IP-based location detection without coordinates
-      htmx.ajax('GET', '/location', {
+      htmx.ajax('GET', 'api/location.php', {
       target: '#location-name',
       swap: 'innerHTML',
       beforeSwap: function(swapInfo) {
@@ -66,7 +78,7 @@ $(document).ready(function() {
     } else {
     // Browser does not support geolocation API
     // Use IP-based location detection as fallback
-    htmx.ajax('GET', '/location', {
+    htmx.ajax('GET', 'api/location.php', {
       target: '#location-name',
       swap: 'innerHTML',
       beforeSwap: function(swapInfo) {
@@ -79,4 +91,4 @@ $(document).ready(function() {
     });
     }
   }
-  });
+});
