@@ -119,6 +119,9 @@ $(document).ready(function () {
     $appointmentForm.on('htmx:beforeRequest', function (event) {
         if (!validateForm()) {
             event.preventDefault(); // Stop HTMX from submitting the form
+        } else {
+            // Clear any previous error messages when submitting a valid form
+            $formResponse.empty();
         }
     });
 

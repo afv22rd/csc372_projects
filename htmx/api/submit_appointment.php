@@ -142,6 +142,10 @@ $formatted_budget = '$' . number_format($budget, 2);
 // Return confirmation content that completely replaces the form
 header('Content-Type: text/html');
 ?>
+<!-- Script to clear any previous error messages -->
+<script>
+    document.getElementById('form-response').innerHTML = '';
+</script>
 <!-- Success Alert -->
 <div class="alert alert-success shadow-lg mb-6">
     <div>
