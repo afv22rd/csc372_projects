@@ -33,7 +33,7 @@ $(document).ready(function() {
       const lon = position.coords.longitude;
       
       // Make an AJAX request to our server including precise coordinates
-      htmx.ajax('GET', '/location?latitude=' + lat + '&longitude=' + lon, {
+      htmx.ajax('GET', 'api/location.php?latitude=' + lat + '&longitude=' + lon, {
       target: '#location-name',  // Element to update with the response
       swap: 'innerHTML',         // Replace the inner HTML of the target
       // This runs before updating the UI with the response
@@ -51,7 +51,7 @@ $(document).ready(function() {
       console.error('Geolocation error:', error);
       
       // Fall back to IP-based location detection without coordinates
-      htmx.ajax('GET', '/location', {
+      htmx.ajax('GET', 'api/location.php', {
       target: '#location-name',
       swap: 'innerHTML',
       beforeSwap: function(swapInfo) {
@@ -66,7 +66,7 @@ $(document).ready(function() {
     } else {
     // Browser does not support geolocation API
     // Use IP-based location detection as fallback
-    htmx.ajax('GET', '/location', {
+    htmx.ajax('GET', 'api/location.php', {
       target: '#location-name',
       swap: 'innerHTML',
       beforeSwap: function(swapInfo) {
