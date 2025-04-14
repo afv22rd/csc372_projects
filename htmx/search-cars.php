@@ -1,5 +1,5 @@
 <?php
-$title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Republic';
+$title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republic | Brawa AutoImport';
 ?>
 <!DOCTYPE html>
 <html lang="en" data-theme="caramellatte" class="bg-white">
