@@ -1,4 +1,6 @@
 <?php
+// Start the session at the beginning of the file
+session_start();
 $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Republic';
 ?>
 <!DOCTYPE html>
@@ -59,7 +61,7 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
                     <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
                       <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
                       <li><a>Settings</a></li>
-                      <li><a>Logout</a></li>
+                      <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
                     </ul>
                   </div>
                 </div>
@@ -109,10 +111,10 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
                     </div>
                   </div>
                   <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
-                    <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
-                    <li><a>Settings</a></li>
-                    <li><a>Logout</a></li>
-                  </ul>
+                      <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
+                      <li><a>Settings</a></li>
+                      <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
+                    </ul>
                 </div>
               </div>
             </div>
@@ -137,8 +139,13 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
                 <div class="hero-overlay bg-opacity-60"></div>
                 <div class="hero-content text-neutral-content text-center">
                     <div class="w-full">
-                    <!-- Heading -->
-                    <h1 class="mb-5 text-3xl md:text-4xl lg:text-5xl font-bold w-full">Your Next Car is Just a Click Away!</h1>
+                    <!-- Heading - conditionally show welcome message or default heading -->
+                    <?php if (isset($_COOKIE['user_name'])) { ?>
+                      <h1 class="mb-5 text-3xl md:text-4xl lg:text-5xl font-bold w-full">Welcome back, <?php echo htmlspecialchars($_COOKIE['user_name']); ?>!</h1>
+                    <?php } else { ?>
+                      <h1 class="mb-5 text-3xl md:text-4xl lg:text-5xl font-bold w-full">Your Next Car is Just a Click Away!</h1>
+                    <?php } ?>
+                    
                     <h3 class="mb-5 text-xl font-bold">
                         Get the best deals and financing options on all models.
                     </h3>
@@ -350,78 +357,95 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
       </div>
 
       <!-- Appointment Modal -->
-      <div class="modal" id="appointment-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog w-11/12 max-w-2xl mx-auto">
-          <div class="modal-content bg-white rounded-lg shadow-xl">
-            <div class="modal-header p-6 border-b">
-              <h3 class="modal-title text-xl font-bold">Schedule an Appointment</h3>
+      <dialog id="appointment-modal" class="modal">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg mb-4">Schedule an Appointment</h3>
+          
+          <!-- Form Response Area -->
+          <div id="form-response"></div>
+          
+          <!-- Appointment Form -->
+          <form id="appointment-form" hx-post="api/submit_appointment.php" hx-target="#appointment-form" hx-swap="outerHTML" class="space-y-4">
+            <!-- First Name -->
+            <div class="form-control w-full">
+              <label for="first_name" class="label">
+                <span class="label-text">First Name</span>
+              </label>
+              <input type="text" id="first_name" name="first_name" class="input input-bordered w-full" 
+                    placeholder="Enter your first name" required minlength="2" maxlength="20">
             </div>
-            <div class="modal-body p-6">
-              <form id="appointment-form" action="api/appointments.php" method="POST" class="space-y-4">
-                <!-- Name inputs -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="form-control">
-                    <input type="text" name="firstName" placeholder="First Name" class="input input-bordered" required>
-                  </div>
-                  <div class="form-control">
-                    <input type="text" name="lastName" placeholder="Last Name" class="input input-bordered" required>
-                  </div>
-                </div>
-                
-                <!-- Contact info -->
-                <div class="form-control">
-                  <input type="email" name="email" placeholder="Email Address" class="input input-bordered" required>
-                </div>
-                <div class="form-control">
-                  <input type="tel" name="phone" placeholder="Phone Number" class="input input-bordered" required>
-                </div>
-                
-                <!-- Date and Time -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="form-control">
-                    <input type="date" name="appointmentDate" class="input input-bordered" required
-                           min="<?php echo date('Y-m-d'); ?>">
-                  </div>
-                  <div class="form-control">
-                    <select name="appointmentTime" class="select select-bordered w-full" required>
-                      <option value="">Select Time</option>
-                      <?php
-                      $start = strtotime('9:00');
-$end = strtotime('17:00');
-for ($i = $start; $i <= $end; $i += 1800) {
-    echo '<option value="'.date('H:i', $i).'">'.date('g:i A', $i).'</option>';
-}
-?>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="modal-action">
-                  <button type="submit" class="btn btn-primary">Schedule Appointment</button>
-                  <button type="button" class="btn" data-dismiss="modal">Cancel</button>
-                </div>
-              </form>
+            
+            <!-- Last Name -->
+            <div class="form-control w-full">
+              <label for="last_name" class="label">
+                <span class="label-text">Last Name</span>
+              </label>
+              <input type="text" id="last_name" name="last_name" class="input input-bordered w-full" 
+                    placeholder="Enter your last name" required minlength="2" maxlength="20">
             </div>
-          </div>
+            
+            <!-- Phone -->
+            <div class="form-control w-full">
+              <label for="phone" class="label">
+                <span class="label-text">Phone Number</span>
+              </label>
+              <input type="tel" id="phone" name="phone" class="input input-bordered w-full" 
+                    placeholder="Enter your phone number" required>
+            </div>
+            
+            <!-- Email -->
+            <div class="form-control w-full">
+              <label for="email" class="label">
+                <span class="label-text">Email</span>
+              </label>
+              <input type="email" id="email" name="email" class="input input-bordered w-full" 
+                    placeholder="Enter your email address" required>
+            </div>
+            
+            <!-- Date -->
+            <div class="form-control w-full">
+              <label for="appointment_date" class="label">
+                <span class="label-text">Appointment Date</span>
+              </label>
+              <input type="date" id="appointment_date" name="appointment_date" class="input input-bordered w-full" required>
+            </div>
+            
+            <!-- Time -->
+            <div class="form-control w-full">
+              <label for="appointment_time" class="label">
+                <span class="label-text">Appointment Time</span>
+              </label>
+              <select id="appointment_time" name="appointment_time" class="select select-bordered w-full" required>
+                <option value="" disabled selected>Select a time</option>
+                <option value="09:00">9:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="13:00">1:00 PM</option>
+                <option value="14:00">2:00 PM</option>
+                <option value="15:00">3:00 PM</option>
+                <option value="16:00">4:00 PM</option>
+                <option value="17:00">5:00 PM</option>
+              </select>
+            </div>
+            
+            <!-- Budget -->
+            <div class="form-control w-full">
+              <label for="budget" class="label">
+                <span class="label-text">Budget ($)</span>
+              </label>
+              <input type="number" id="budget" name="budget" class="input input-bordered w-full" 
+                    placeholder="Enter your budget" min="1000" max="100000" required>
+            </div>
+            
+            <!-- Modal Actions -->
+            <div class="modal-action">
+              <button type="submit" class="btn btn-primary">Schedule Appointment</button>
+              <button type="button" class="btn" onclick="document.getElementById('appointment-modal').close()">Close</button>
+            </div>
+          </form>
         </div>
-      </div>
-
-      <!-- Appointment Success Modal -->
-      <div class="modal" id="success-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog w-11/12 max-w-lg mx-auto">
-          <div class="modal-content bg-white rounded-lg shadow-xl">
-            <div class="modal-header p-6 border-b">
-              <h3 class="modal-title text-xl font-bold">Appointment Scheduled!</h3>
-            </div>
-            <div class="modal-body p-6">
-              <p>Your appointment has been successfully scheduled. We'll send you a confirmation email with all the details.</p>
-            </div>
-            <div class="modal-footer p-6 border-t">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      </dialog>
 
       <!-- Footer -->
       <footer class="footer lg:footer-horizontal bg-neutral text-neutral-content p-10">
@@ -496,7 +520,8 @@ for ($i = $start; $i <= $end; $i += 1800) {
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
     <script src="public/js/search.js"></script>
     <script src="public/js/load-stats.js"></script>
-    <script src="public/js/get-location.js"></script>
     <script src="public/js/appointments.js"></script>
+    
+    
   </body>
 </html>
