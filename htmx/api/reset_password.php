@@ -67,6 +67,12 @@ try {
     $update_statement = $pdo->prepare($update_sql);
     $result = $update_statement->execute([$password, $user['user_id']]);
 
+    // Get the number of rows affected
+    $rowsAffected = $update_statement->rowCount();
+
+    // Log the result for debugging purposes
+    error_log('Password reset: Affected rows: '.$rowsAffected.' for user ID: '.$user['user_id']);
+
     if ($result) {
         // Password updated successfully
         header('Content-Type: text/html');

@@ -65,6 +65,11 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
                     <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
                       <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
                       <li><a>Settings</a></li>
+                      <li><a class="text-error" 
+                            onclick="document.getElementById('delete-account-modal').showModal()"
+                            hx-get="api/auth_forms.php?form=delete_account" 
+                            hx-target="#delete-account-container" 
+                            hx-trigger="click">Delete Account</a></li>
                       <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
                     </ul>
                   </div>
@@ -127,6 +132,11 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
                   <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
                     <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
                     <li><a>Settings</a></li>
+                    <li><a class="text-error" 
+                          onclick="document.getElementById('delete-account-modal').showModal()"
+                          hx-get="api/auth_forms.php?form=delete_account" 
+                          hx-target="#delete-account-container" 
+                          hx-trigger="click">Delete Account</a></li>
                     <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
                   </ul>
                 </div>
@@ -333,6 +343,18 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
           <button class="bg-base-300 btn btn-md btn-circle btn-ghost absolute right-5 top-4">✕</button>
         </form>
         <div id="auth-form-container">
+          <!-- Form content will be loaded by HTMX -->
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Delete Account Modal -->
+    <dialog id="delete-account-modal" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button class="bg-base-300 btn btn-md btn-circle btn-ghost absolute right-5 top-4">✕</button>
+        </form>
+        <div id="delete-account-container">
           <!-- Form content will be loaded by HTMX -->
         </div>
       </div>
