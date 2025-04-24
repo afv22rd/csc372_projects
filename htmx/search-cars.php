@@ -1,4 +1,7 @@
 <?php
+// Start the session at the beginning of the file
+session_start();
+
 $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republic | Brawa AutoImport';
 ?>
 <!DOCTYPE html>
@@ -50,18 +53,29 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
                       </div>
                     </div>
                   </div>
+                  
+                  <!-- Profile dropdown (shown when signed in) -->
+                  <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) { ?>
                   <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                      <div class="w-10 rounded-full">
-                        <img alt="User avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
+                      <div class="w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                        <span class="text-lg font-bold"><?php echo substr(htmlspecialchars($_SESSION['user_name']), 0, 1); ?></span>
                       </div>
                     </div>
                     <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
                       <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
                       <li><a>Settings</a></li>
-                      <li><a>Logout</a></li>
+                      <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
                     </ul>
                   </div>
+                  <?php } else { ?>
+                  <!-- Login button for unauthenticated users (mobile) -->
+                  <button class="btn btn-primary ml-2 lg:hidden" 
+                    hx-get="api/auth_forms.php?form=login" 
+                    hx-target="#auth-form-container" 
+                    hx-trigger="click" 
+                    onclick="document.getElementById('login-modal').showModal()">Login</button>
+                  <?php } ?>
                 </div>
               </div>
             </div>
@@ -102,18 +116,28 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
                   </div>
                 </div>
 
+                <!-- Profile dropdown (shown when signed in) -->
+                <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) { ?>
                 <div class="dropdown dropdown-end">
                   <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                    <div class="w-10 rounded-full">
-                      <img alt="User avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
+                    <div class="w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                      <span class="text-lg font-bold"><?php echo substr(htmlspecialchars($_SESSION['user_name']), 0, 1); ?></span>
                     </div>
                   </div>
                   <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
                     <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
                     <li><a>Settings</a></li>
-                    <li><a>Logout</a></li>
+                    <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
                   </ul>
                 </div>
+                <?php } else { ?>
+                <!-- Login button for unauthenticated users -->
+                <button class="btn btn-primary ml-2" 
+                  hx-get="api/auth_forms.php?form=login" 
+                  hx-target="#auth-form-container" 
+                  hx-trigger="click"
+                  onclick="document.getElementById('login-modal').showModal()">Login</button>
+                <?php } ?>
               </div>
             </div>
 
@@ -302,6 +326,18 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
         </footer>
     </div>
 
+    <!-- Login Modal -->
+    <dialog id="login-modal" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button class="bg-base-300 btn btn-md btn-circle btn-ghost absolute right-5 top-4">✕</button>
+        </form>
+        <div id="auth-form-container">
+          <!-- Form content will be loaded by HTMX -->
+        </div>
+      </div>
+    </dialog>
+
     <!-- Scripts -->
     <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -310,5 +346,6 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
     <script src="public/js/search.js"></script>
     <script src="public/js/load-stats.js"></script>
     <script src="public/js/get-location.js"></script>
+    <script src="public/js/auth.js"></script>
   </body>
 </html>

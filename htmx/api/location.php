@@ -33,8 +33,7 @@ if (isset($_GET['latitude']) && isset($_GET['longitude'])) {
 
             if (!empty($city)) {
                 $location = "{$city}, {$province}";
-                // Set a cookie with the location data that expires in 7 days
-                setcookie("user_location", $location, time() + (86400 * 7), "/");
+                // Output the formatted location
                 echo $location;
             } else {
                 echo 'Update location';
@@ -47,10 +46,6 @@ if (isset($_GET['latitude']) && isset($_GET['longitude'])) {
         echo 'Update location';
     }
 } else {
-    // Check if location is stored in cookie
-    if (isset($_COOKIE['user_location'])) {
-        echo $_COOKIE['user_location'];
-    } else {
-        echo 'Update location';
-    }
+    // No coordinates provided
+    echo 'Update location';
 }
