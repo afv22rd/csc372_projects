@@ -52,18 +52,34 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
                       </div>
                     </div>
                   </div>
+                  
+                  <!-- Profile dropdown (shown when signed in) -->
+                  <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) { ?>
                   <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                      <div class="w-10 rounded-full">
-                        <img alt="User avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
+                      <div class="w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                        <span class="text-lg font-bold"><?php echo substr(htmlspecialchars($_SESSION['user_name']), 0, 1); ?></span>
                       </div>
                     </div>
                     <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
                       <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
                       <li><a>Settings</a></li>
+                      <li><a class="text-error" 
+                            onclick="document.getElementById('delete-account-modal').showModal()"
+                            hx-get="api/auth_forms.php?form=delete_account" 
+                            hx-target="#delete-account-container" 
+                            hx-trigger="click">Delete Account</a></li>
                       <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
                     </ul>
                   </div>
+                  <?php } else { ?>
+                  <!-- Login button for unauthenticated users (mobile) -->
+                  <button class="btn btn-primary ml-2 lg:hidden" 
+                    hx-get="api/auth_forms.php?form=login" 
+                    hx-target="#auth-form-container" 
+                    hx-trigger="click" 
+                    onclick="document.getElementById('login-modal').showModal()">Login</button>
+                  <?php } ?>
                 </div>
               </div>
             </div>
@@ -104,25 +120,40 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
                   </div>
                 </div>
 
+                <!-- Profile dropdown (shown when signed in) -->
+                <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) { ?>
                 <div class="dropdown dropdown-end">
                   <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                    <div class="w-10 rounded-full">
-                      <img alt="User avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp">
+                    <div class="w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                      <span class="text-lg font-bold"><?php echo substr(htmlspecialchars($_SESSION['user_name']), 0, 1); ?></span>
                     </div>
                   </div>
                   <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
-                      <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
-                      <li><a>Settings</a></li>
-                      <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
-                    </ul>
+                    <li><a class="justify-between">Profile<span class="badge">New</span></a></li>
+                    <li><a>Settings</a></li>
+                    <li><a class="text-error" 
+                          onclick="document.getElementById('delete-account-modal').showModal()"
+                          hx-get="api/auth_forms.php?form=delete_account" 
+                          hx-target="#delete-account-container" 
+                          hx-trigger="click">Delete Account</a></li>
+                    <li><a href="api/logout.php" hx-boost="false">Logout</a></li>
+                  </ul>
                 </div>
+                <?php } else { ?>
+                <!-- Login button for unauthenticated users -->
+                <button class="btn btn-primary ml-2" 
+                  hx-get="api/auth_forms.php?form=login" 
+                  hx-target="#auth-form-container" 
+                  hx-trigger="click"
+                  onclick="document.getElementById('login-modal').showModal()">Login</button>
+                <?php } ?>
               </div>
             </div>
 
             <!-- Mobile Bottom Nav -->
             <div class="w-full lg:hidden flex justify-center">
               <div class="flex gap-8 py-2 w-full justify-around">
-                <a href="/search-cars" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Search Cars</a>
+                <a href="search-cars.php" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Search Cars</a>
                 <a href="/sell-trade" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Sell/Trade</a>
                 <a href="/financing" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Financing</a>
               </div>
@@ -447,6 +478,30 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
         </div>
       </dialog>
 
+      <!-- Login Modal -->
+      <dialog id="login-modal" class="modal">
+        <div class="modal-box">
+          <form method="dialog">
+            <button class="bg-base-300 btn btn-md btn-circle btn-ghost absolute right-5 top-4">✕</button>
+          </form>
+          <div id="auth-form-container">
+            <!-- Form content will be loaded by HTMX -->
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Delete Account Modal -->
+      <dialog id="delete-account-modal" class="modal">
+        <div class="modal-box">
+          <form method="dialog">
+            <button class="bg-base-300 btn btn-md btn-circle btn-ghost absolute right-5 top-4">✕</button>
+          </form>
+          <div id="delete-account-container">
+            <!-- Delete account form will be loaded here by HTMX -->
+          </div>
+        </div>
+      </dialog>
+
       <!-- Footer -->
       <footer class="footer lg:footer-horizontal bg-neutral text-neutral-content p-10">
           <!-- Company information section -->
@@ -521,7 +576,7 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
     <script src="public/js/search.js"></script>
     <script src="public/js/load-stats.js"></script>
     <script src="public/js/appointments.js"></script>
-    
+    <script src="public/js/auth.js"></script>
     
   </body>
 </html>

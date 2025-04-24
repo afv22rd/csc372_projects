@@ -1,32 +1,28 @@
 <?php
 
-// Start the session
+// Start session
 session_start();
 
-// Unset all session variables
-$_SESSION = [];
+// Clear session variables
+$_SESSION = array();
 
 // Delete the session cookie
-if (ini_get('session.use_cookies')) {
+if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
-    setcookie(
-        session_name(),
-        '',
-        time() - 42000,
-        $params['path'],
-        $params['domain'],
-        $params['secure'],
-        $params['httponly']
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
     );
 }
 
-// Also delete the user_name cookie
-setcookie('user_name', '', time() - 42000, '/');
-// Delete the user_location cookie
-setcookie('user_location', '', time() - 42000, '/');
-// Finally, destroy the session
+// Destroy the session
 session_destroy();
 
-// Redirect back to the homepage
+// Clear user cookies
+setcookie('user_name', '', time() - 3600, '/');
+setcookie('user_email', '', time() - 3600, '/');
+
+// Redirect to home page
 header('Location: ../index.php');
 exit;
+?>
