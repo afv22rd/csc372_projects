@@ -291,6 +291,14 @@ try {
                                         <span class="text-sm text-gray-500">Mileage</span>
                                         <span class="font-medium"><?php echo $mileageFormatted; ?> miles</span>
                                     </div>
+                                    <div class="flex justify-between items-center py-1 border-b border-base-200">
+                                        <span class="text-sm text-gray-500">Condition</span>
+                                        <span class="font-medium"><?php echo htmlspecialchars($vehicle['condition'] ?? 'N/A'); ?></span>
+                                    </div>
+                                    <div class="flex justify-between items-center py-1 border-b border-base-200">
+                                        <span class="text-sm text-gray-500">Location</span>
+                                        <span class="font-medium"><?php echo htmlspecialchars($vehicle['location'] ?? 'N/A'); ?></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -374,6 +382,14 @@ try {
                                 <div class="flex flex-col">
                                     <span class="text-sm text-gray-500">Cylinders</span>
                                     <span class="font-medium"><?php echo htmlspecialchars($vehicle['cylinders']); ?></span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-sm text-gray-500">Condition</span>
+                                    <span class="font-medium"><?php echo htmlspecialchars($vehicle['condition'] ?? 'N/A'); ?></span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-sm text-gray-500">Location</span>
+                                    <span class="font-medium"><?php echo htmlspecialchars($vehicle['location'] ?? 'N/A'); ?></span>
                                 </div>
                             </div>
                         </div>

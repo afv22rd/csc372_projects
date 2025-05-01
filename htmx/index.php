@@ -94,7 +94,7 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
             <div class="hidden lg:flex navbar-start">
               <ul class="menu menu-horizontal px-1 flex-1 gap-2">
                 <li><a href="search-cars.php" class="font-semibold">Search Cars</a></li>
-                <li><a href="views/sell-trade" class="font-semibold">Sell/Trade</a></li>
+                <li><a href="sell_trade.php" class="font-semibold">Sell/Trade</a></li>
                 <li><a href="views/financing" class="font-semibold">Financing</a></li>
               </ul>
             </div>
@@ -154,7 +154,7 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
             <div class="w-full lg:hidden flex justify-center">
               <div class="flex gap-8 py-2 w-full justify-around">
                 <a href="search-cars.php" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Search Cars</a>
-                <a href="/sell-trade" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Sell/Trade</a>
+                <a href="sell_trade.php" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Sell/Trade</a>
                 <a href="/financing" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Financing</a>
               </div>
             </div>
@@ -512,7 +512,7 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
               <p>
               Brawa AutoImport SRL
               <br />
-              Copyright © 2025 Brawa. All Rights Reserved.
+              Copyright © 2025 Brawa | Abel Frias. All Rights Reserved.
               </p>
           </aside>
           <!-- Footer navigation sections organized by category -->
@@ -526,7 +526,7 @@ $title = 'Brawa AutoImport SRL | Buy, Sell & Finance Cars in the Dominican Repub
           <!-- Sell/Trade links section -->
           <nav>
               <h6 class="footer-title">Sell/Trade</h6>
-              <a class="link link-hover">Get an Offer</a>
+              <a class="link link-hover" href="sell_trade.php">Get an Offer</a>
           </nav>
           <!-- About & Support links section -->
           <nav>
