@@ -95,7 +95,7 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
             <div class="hidden lg:flex navbar-start">
               <ul class="menu menu-horizontal px-1 flex-1 gap-2">
                 <li><a href="search-cars.php" class="font-semibold bg-base-300">Search Cars</a></li>
-                <li><a href="" class="font-semibold">Sell/Trade</a></li>
+                <li><a href="sell_trade.php" class="font-semibold">Sell/Trade</a></li>
                 <li><a href="" class="font-semibold">Financing</a></li>
               </ul>
             </div>
@@ -154,8 +154,8 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
             <!-- Mobile Bottom Nav -->
             <div class="w-full lg:hidden flex justify-center">
               <div class="flex gap-8 py-2 w-full justify-around">
-                <a href="search-cars.php" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Search Cars</a>
-                <a href="" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Sell/Trade</a>
+                <a href="search-cars.php" class="text-sm text-primary font-semibold hover:text-primary p-2 rounded-lg">Search Cars</a>
+                <a href="sell_trade.php" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Sell/Trade</a>
                 <a href="" class="text-sm font-semibold hover:text-primary p-2 rounded-lg">Financing</a>
               </div>
             </div>
@@ -280,7 +280,7 @@ $title = 'Used Cars for Sale | Buy, Trade & Finance Cars in the Dominican Republ
                 <p>
                 Brawa AutoImport SRL
                 <br />
-                Copyright © 2025 Brawa. All Rights Reserved.
+                Copyright © 2025 Brawa | Abel Frias. All Rights Reserved.
                 </p>
             </aside>
             <!-- Footer navigation sections organized by category -->

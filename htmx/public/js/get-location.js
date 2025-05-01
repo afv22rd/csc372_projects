@@ -1,72 +1,83 @@
 $(document).ready(function() {
-  // This function executes when the DOM is fully loaded
-  
-  // Always get fresh location data when the page loads
-  getAndUpdateLocation();
-  
-  // Set up an event handler for when the user clicks the location refresh button
-  $('#location-button').on('click', function(e) {
-    // Prevent any default HTMX behaviors or form submissions
-    e.preventDefault();
-    
-    // When the user explicitly requests a location update, get fresh coordinates
-    getAndUpdateLocation();
-  });
-  
-  // Core function that handles obtaining user location and updating the interface
-  function getAndUpdateLocation() {
-    // Clear existing loading state if any
-    $('#location-name').html('Getting location...');
-    
+  // Function to fetch location from the server
+  function fetchLocationFromServer() {
+    $('#location-name').html('Getting location...'); // Show loading state
+
     if (navigator.geolocation) {
-      // Browser supports geolocation API - attempt to get precise coordinates
       navigator.geolocation.getCurrentPosition(function(position) {
-        // Success callback - user allowed access to their precise location
+        // Got precise coordinates
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        
-        // Make an AJAX request to our server including precise coordinates
         htmx.ajax('GET', 'api/location.php?latitude=' + lat + '&longitude=' + lon, {
-          target: '#location-name',  // Element to update with the response
-          swap: 'innerHTML',         // Replace the inner HTML of the target
-          // This runs before updating the UI with the response
+          target: '#location-name',
+          swap: 'innerHTML',
+          // Save the successful response to localStorage
           beforeSwap: function(swapInfo) {
-            if (swapInfo.xhr.status === 200) {
-              // Still store in localStorage for the current session
+            if (swapInfo.xhr.status === 200 && swapInfo.serverResponse && swapInfo.serverResponse.trim() !== 'Update location') {
               localStorage.setItem('userLocationName', swapInfo.serverResponse);
+            } else if (swapInfo.xhr.status !== 200) {
+               // Clear cache on error? Or keep stale? For now, let's keep stale.
+               console.error("Failed to fetch location with coordinates.");
             }
-            return true; // Proceed with updating the UI
+            return true;
           }
         });
       }, function(error) {
-        // Error callback - user denied permission or other geolocation error
+        // Geolocation failed (denied permission, etc.)
         console.error('Geolocation error:', error);
-        
-        // Fall back to IP-based location detection without coordinates
+        // Fall back to server-side IP lookup (if implemented) or default
         htmx.ajax('GET', 'api/location.php', {
           target: '#location-name',
           swap: 'innerHTML',
-          beforeSwap: function(swapInfo) {
-            if (swapInfo.xhr.status === 200) {
+          // Save the successful response to localStorage
+           beforeSwap: function(swapInfo) {
+            if (swapInfo.xhr.status === 200 && swapInfo.serverResponse && swapInfo.serverResponse.trim() !== 'Update location') {
               localStorage.setItem('userLocationName', swapInfo.serverResponse);
+            } else if (swapInfo.xhr.status !== 200) {
+               console.error("Failed to fetch location without coordinates.");
             }
             return true;
           }
         });
       });
     } else {
-      // Browser does not support geolocation API
-      // Use IP-based location detection as fallback
+      // Browser doesn't support geolocation
+      console.log('Geolocation is not supported by this browser.');
+      // Fall back to server-side IP lookup or default
       htmx.ajax('GET', 'api/location.php', {
         target: '#location-name',
         swap: 'innerHTML',
-        beforeSwap: function(swapInfo) {
-          if (swapInfo.xhr.status === 200) {
-            localStorage.setItem('userLocationName', swapInfo.serverResponse);
+         // Save the successful response to localStorage
+         beforeSwap: function(swapInfo) {
+            if (swapInfo.xhr.status === 200 && swapInfo.serverResponse && swapInfo.serverResponse.trim() !== 'Update location') {
+              localStorage.setItem('userLocationName', swapInfo.serverResponse);
+            } else if (swapInfo.xhr.status !== 200) {
+               console.error("Failed to fetch location (no geolocation support).");
+            }
+            return true;
           }
-          return true;
-        }
       });
     }
   }
+
+  // --- Initialization on Page Load ---
+  const cachedLocation = localStorage.getItem('userLocationName');
+
+  if (cachedLocation && cachedLocation !== 'Update location') {
+    // If a valid location is cached, display it immediately
+    $('#location-name').html(cachedLocation);
+    // Optional: You could uncomment the next line to silently refresh
+    // the location in the background *after* showing the cached one.
+    // fetchLocationFromServer();
+  } else {
+    // If no valid cache, fetch fresh location on load
+    fetchLocationFromServer();
+  }
+
+  // --- Event Handler for Refresh Button ---
+  $('#location-button').on('click', function(e) {
+    e.preventDefault(); // Prevent default behavior
+    // Always fetch fresh location when the button is clicked, bypassing cache check
+    fetchLocationFromServer();
+  });
 });
